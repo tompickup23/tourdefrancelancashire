@@ -28,10 +28,10 @@ Captured 23 July 2026. Strategy for turning tourdefrancelancashire.co.uk into re
 ## Affiliate programmes (specifics)
 
 **Accommodation**
-- Booking.com Affiliate Partner (direct portal) — deep links cookie-clean; search widget is not
-- Sykes / cottages.com / holidaycottages.co.uk (via Awin) — self-catering, big in Bowland + Ribble Valley
+- Booking.com Affiliate Partner (direct portal): deep links cookie-clean; search widget is not
+- Sykes / cottages.com / holidaycottages.co.uk (via Awin): self-catering, big in Bowland + Ribble Valley
 - Expedia / Hotels.com / Vrbo (CJ or Expedia Partner Solutions)
-- Stay22 (direct) — map aggregator, nice UX but a script that sets cookies
+- Stay22 (direct): map aggregator, nice UX but a script that sets cookies
 
 **Experiences / attractions**
 - GetYourGuide (Partnerize), Viator (Impact), Tiqets (direct)
@@ -41,7 +41,7 @@ Captured 23 July 2026. Strategy for turning tourdefrancelancashire.co.uk into re
 
 **Cycling / race-day kit**
 - Merlin Cycles (Lancashire-based, Awin), Tredz / Sigma Sports / Rapha / Halfords (Awin)
-- Amazon Associates UK — catch-all (OS maps of Bowland, guidebooks, picnic/waterproof kit)
+- Amazon Associates UK: catch-all (OS maps of Bowland, guidebooks, picnic/waterproof kit)
 
 **Networks to sign up with (covers most of the above):** Awin (one account), Amazon Associates UK, Booking.com, GetYourGuide. All support plain deep links.
 

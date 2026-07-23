@@ -53,8 +53,8 @@ node build.mjs && wrangler pages deploy dist --project-name tourdefrancelancashi
 
 ## Docs
 
-- **ROADMAP.md** — current state, content maintenance as the event approaches, and backlog.
-- **MONETISATION.md** — affiliate / sponsorship / product strategy and the legal + cookie guardrails (to revisit).
+- **ROADMAP.md**: current state, content maintenance as the event approaches, and backlog.
+- **MONETISATION.md**: affiliate / sponsorship / product strategy and the legal + cookie guardrails (to revisit).
 
 ## Sources
 
