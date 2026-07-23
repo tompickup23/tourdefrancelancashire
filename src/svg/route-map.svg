@@ -1,39 +1,61 @@
-<svg class="route-map" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="routeMapTitle routeMapDesc">
-  <title id="routeMapTitle">Map of Tour de France 2027 Stage 2 through Lancashire</title>
-  <desc id="routeMapDesc">A stylised map of the Stage 2 route from Keswick, down the Morecambe Bay coast through Lancaster, over the Côte de Jubilee Tower, across the Forest of Bowland to Clitheroe, Whalley, Blackburn and Chorley, and on through West Lancashire to finish in Liverpool.</desc>
+<svg class="route-map" viewBox="0 0 1000 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="rmTitle rmDesc">
+  <title id="rmTitle">Illustrated map of Tour de France 2027 Stage 2 through Lancashire</title>
+  <desc id="rmDesc">A hand-illustrated map of the Stage 2 route from Keswick down the Morecambe Bay coast through Lancaster, over the Côte de Jubilee Tower, across the Forest of Bowland to Clitheroe, Whalley, Blackburn and Chorley, then on through West Lancashire to finish on the Liverpool waterfront. Each place is marked with an illustrated landmark icon.</desc>
 
   <defs>
-    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#F4EEDF"/>
-      <stop offset="1" stop-color="#FBF6EC"/>
+    <linearGradient id="rm-paper" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#F7F1E2"/><stop offset="1" stop-color="#F1E9D4"/>
     </linearGradient>
-    <linearGradient id="route" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#C8102E"/>
-      <stop offset="1" stop-color="#9E0B25"/>
+    <linearGradient id="rm-route" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#D8213E"/><stop offset="0.55" stop-color="#C8102E"/><stop offset="1" stop-color="#8E0B25"/>
     </linearGradient>
+    <radialGradient id="rm-sun" cx="0.5" cy="0.4" r="0.6">
+      <stop offset="0" stop-color="#F4C15E"/><stop offset="1" stop-color="#E8994B"/>
+    </radialGradient>
+    <filter id="rm-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2.5" stdDeviation="3" flood-color="#1B1206" flood-opacity="0.22"/>
+    </filter>
+    <g id="ic-medbase">
+      <circle r="25" fill="#FBF6EC" stroke="#1B4332" stroke-width="2.2"/>
+      <circle r="20.5" fill="none" stroke="#E8B04B" stroke-width="1.1" opacity="0.85"/>
+    </g>
   </defs>
 
-  <!-- land -->
-  <rect x="0" y="0" width="900" height="620" fill="url(#sky)"/>
+  <!-- paper -->
+  <rect x="0" y="0" width="1000" height="720" fill="url(#rm-paper)"/>
+  <!-- decorative frame -->
+  <rect x="14" y="14" width="972" height="692" rx="14" fill="none" stroke="#C9BC9C" stroke-width="2"/>
+  <rect x="21" y="21" width="958" height="678" rx="10" fill="none" stroke="#C9BC9C" stroke-width="1" opacity="0.7"/>
 
-  <!-- sea to the west + Morecambe Bay -->
-  <path d="M0,0 L118,0 C108,70 132,110 120,150 C168,182 70,206 96,248 C126,290 104,322 132,360 C112,448 140,532 122,620 L0,620 Z"
-        fill="#CDE3E6"/>
-  <path d="M118,0 C108,70 132,110 120,150 C168,182 70,206 96,248 C126,290 104,322 132,360 C112,448 140,532 122,620"
-        fill="none" stroke="#9FC4C9" stroke-width="2"/>
-  <text x="46" y="330" class="map-sea" transform="rotate(-90 46 330)">Irish Sea</text>
-
-  <!-- Forest of Bowland contour texture -->
-  <g fill="none" stroke="#7FA98C" opacity="0.35">
-    <path d="M400 150 C470 120 560 130 590 175 C610 210 560 250 490 250 C420 250 370 210 400 150 Z" stroke-width="1.5"/>
-    <path d="M420 165 C475 142 545 150 568 185 C583 212 545 240 492 240 C438 240 400 210 420 165 Z" stroke-width="1.2"/>
-    <path d="M442 180 C482 164 528 170 546 195 C558 214 528 230 492 230 C456 230 428 210 442 180 Z" stroke-width="1"/>
-    <path d="M462 194 C490 184 518 188 530 204 C538 216 518 224 492 224 C468 224 452 212 462 194 Z" stroke-width="0.9"/>
+  <!-- sea -->
+  <path d="M21 21 L150 21 C138 120 168 170 150 230 C196 275 96 300 128 350 C150 392 120 430 150 480 C120 560 150 640 132 699 L21 699 Z"
+        fill="#CFE3E4"/>
+  <path d="M150 21 C138 120 168 170 150 230 C196 275 96 300 128 350 C150 392 120 430 150 480 C120 560 150 640 132 699"
+        fill="none" stroke="#A9CBCB" stroke-width="1.6"/>
+  <g stroke="#9FC4C6" stroke-width="1.4" fill="none" opacity="0.7" stroke-linecap="round">
+    <path d="M55 150 q10 -6 20 0 q10 6 20 0"/><path d="M50 400 q10 -6 20 0 q10 6 20 0"/>
+    <path d="M60 250 q10 -6 20 0 q10 6 20 0"/><path d="M55 520 q10 -6 20 0 q10 6 20 0"/>
+    <path d="M62 620 q10 -6 20 0 q10 6 20 0"/>
   </g>
-  <text x="470" y="150" class="map-region">FOREST OF BOWLAND</text>
+  <text x="70" y="330" class="rm-sea" transform="rotate(-90 70 330)">IRISH SEA</text>
+  <text x="176" y="232" class="rm-water">Morecambe Bay</text>
 
-  <!-- watermark rose -->
-  <g transform="translate(760 500) scale(0.55) translate(-100 -100)" opacity="0.10">
+  <!-- Forest of Bowland hachured fells -->
+  <g opacity="0.5">
+    <path d="M410 175 C470 150 560 158 590 200 C608 232 566 262 500 262 C434 262 384 226 410 175 Z" fill="#CFE0BE" stroke="#9DBB84" stroke-width="1.4"/>
+    <g stroke="#9DBB84" stroke-width="1" stroke-linecap="round">
+      <path d="M440 240 l7 -13"/><path d="M462 246 l7 -13"/><path d="M486 248 l7 -13"/><path d="M510 246 l7 -13"/><path d="M534 240 l7 -13"/><path d="M556 232 l7 -13"/>
+      <path d="M452 220 l7 -13"/><path d="M476 224 l7 -13"/><path d="M500 224 l7 -13"/><path d="M524 220 l7 -13"/><path d="M546 214 l6 -12"/>
+    </g>
+  </g>
+  <text x="500" y="150" class="rm-region">FOREST OF BOWLAND</text>
+
+  <!-- Pendle whaleback -->
+  <path d="M690 300 C740 276 812 280 860 306 C820 300 760 302 690 316 Z" fill="#B9C7A6" opacity="0.6"/>
+  <text x="792" y="296" class="rm-region rm-region--sm">PENDLE HILL</text>
+
+  <!-- faint watermark rose -->
+  <g transform="translate(830 560) scale(0.7) translate(-100 -100)" opacity="0.08">
     <g fill="#C8102E">
       <path d="M100 100 C74 72 74 44 100 26 C126 44 126 72 100 100 Z" transform="rotate(0 100 100)"/>
       <path d="M100 100 C74 72 74 44 100 26 C126 44 126 72 100 100 Z" transform="rotate(72 100 100)"/>
@@ -43,72 +65,149 @@
     </g>
   </g>
 
-  <!-- Cumbria approach (lighter, dashed) -->
-  <path d="M150 60 C158 100 150 150 170 190" fill="none" stroke="#B6805A" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 10" opacity="0.7"/>
+  <!-- Cumbria approach (dashed) -->
+  <path d="M170 80 C176 150 150 200 150 255" fill="none" stroke="#B6805A" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 11" opacity="0.75"/>
 
-  <!-- Lancashire route: casing + ribbon -->
-  <path id="routeLine" d="M170 190
-      C178 215 150 235 140 250
-      C150 270 185 278 215 285
-      C255 292 300 270 330 250
-      C375 232 415 222 460 220
-      C520 220 560 250 600 275
-      C625 300 635 318 630 340
-      C628 368 615 388 600 410
-      C560 435 515 452 470 470
-      C425 483 375 497 320 505
-      C270 515 215 540 170 560"
-      pathLength="100" fill="none" stroke="#7A0A1D" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" opacity="0.25"/>
-  <use href="#routeLine" class="route-draw" stroke="url(#route)" stroke-width="6" opacity="1"/>
+  <!-- Lancashire route -->
+  <path id="routeLine" pathLength="100"
+    d="M150 255 C150 285 200 292 232 300 C270 308 322 282 352 262 C398 244 440 234 486 232 C548 230 590 262 628 286 C650 308 662 330 662 356 C662 386 645 410 626 432 C588 458 540 476 492 492 C446 505 390 518 332 527 C282 535 224 562 184 588"
+    fill="none" stroke="#7A0A1D" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="0.22"/>
+  <use href="#routeLine" class="route-draw" stroke="url(#rm-route)" stroke-width="6.5"/>
+  <use href="#routeLine" stroke="#F6E3C6" stroke-width="1.4" stroke-dasharray="2 9" stroke-linecap="round" opacity="0.8"/>
 
-  <!-- start flag: Keswick -->
-  <g transform="translate(150 60)">
-    <circle r="7" fill="#1B4332"/>
-    <circle r="3" fill="#FBF6EC"/>
-    <text x="14" y="-4" class="map-label map-label--muted">START</text>
-    <text x="14" y="11" class="map-place map-place--muted">Keswick, Cumbria</text>
-  </g>
-
-  <!-- climb marker: Côte de Jubilee Tower -->
-  <g transform="translate(330 250)">
-    <path d="M0 -13 L11 8 L-11 8 Z" fill="#E8B04B" stroke="#B9822A" stroke-width="1.5"/>
-    <text x="0" y="30" class="map-place map-climb" text-anchor="middle">Côte de Jubilee Tower</text>
-    <text x="0" y="44" class="map-sub" text-anchor="middle">Category climb</text>
-  </g>
-
-  <!-- town nodes -->
-  <g class="nodes">
-    <g transform="translate(170 190)"><circle r="6" class="dot"/><text x="12" y="4" class="map-place">Morecambe Bay</text></g>
-    <g transform="translate(140 250)"><circle r="6" class="dot"/><text x="-12" y="4" class="map-place" text-anchor="end">Morecambe</text></g>
-    <g transform="translate(215 285)"><circle r="6" class="dot"/><text x="-12" y="4" class="map-place" text-anchor="end">Lancaster</text></g>
-    <g transform="translate(460 220)"><circle r="6" class="dot"/><text x="0" y="-14" class="map-place" text-anchor="middle">Bowland fells</text></g>
-    <g transform="translate(600 275)"><circle r="6" class="dot"/><text x="14" y="4" class="map-place">Clitheroe</text></g>
-    <g transform="translate(630 340)"><circle r="6" class="dot"/><text x="14" y="4" class="map-place">Whalley &amp; Langho</text></g>
-    <g transform="translate(600 410)"><circle r="6" class="dot"/><text x="14" y="4" class="map-place">Blackburn</text></g>
-    <g transform="translate(470 470)"><circle r="6" class="dot"/><text x="0" y="24" class="map-place" text-anchor="middle">Chorley</text></g>
-    <g transform="translate(320 505)"><circle r="6" class="dot"/><text x="0" y="24" class="map-place" text-anchor="middle">West Lancashire</text></g>
-  </g>
-
-  <!-- finish -->
-  <g transform="translate(170 560)">
-    <g transform="translate(-9 -30)">
-      <line x1="0" y1="0" x2="0" y2="34" stroke="#17171F" stroke-width="2"/>
-      <rect x="0" y="0" width="18" height="12" fill="#17171F"/>
-      <rect x="0" y="0" width="6" height="6" fill="#FBF6EC"/>
-      <rect x="12" y="0" width="6" height="6" fill="#FBF6EC"/>
-      <rect x="6" y="6" width="6" height="6" fill="#FBF6EC"/>
+  <!-- ===================== landmark medallions ===================== -->
+  <!-- Keswick / start -->
+  <g transform="translate(170 80)" filter="url(#rm-shadow)">
+    <use href="#ic-medbase"/>
+    <g class="rm-ic">
+      <path d="M-13 8 L-4 -7 L2 1 L9 -10 L15 8 Z" fill="#2E6B47"/>
+      <path d="M-4 -7 L-1 -2 L-7 -2 Z" fill="#FBF6EC"/><path d="M9 -10 L12 -4 L5 -4 Z" fill="#FBF6EC"/>
     </g>
-    <circle r="7" fill="#C8102E"/>
-    <circle r="3" fill="#FBF6EC"/>
-    <text x="14" y="0" class="map-label">FINISH</text>
-    <text x="14" y="15" class="map-place">The Strand, Liverpool</text>
   </g>
+  <text x="170" y="42" class="rm-label rm-label--muted" text-anchor="middle">START</text>
+  <text x="170" y="128" class="rm-place rm-place--muted" text-anchor="middle">Keswick</text>
+
+  <!-- Morecambe -->
+  <g transform="translate(150 255)" filter="url(#rm-shadow)">
+    <use href="#ic-medbase"/>
+    <circle cx="0" cy="-4" r="7" fill="url(#rm-sun)"/>
+    <g stroke="#2E6B47" stroke-width="2" fill="none" stroke-linecap="round"><path d="M-12 8 q6 -5 12 0 q6 5 12 0"/><path d="M-12 14 q6 -5 12 0 q6 5 12 0"/></g>
+  </g>
+  <text x="150" y="292" class="rm-place" text-anchor="middle">Morecambe</text>
+
+  <!-- Lancaster / Ashton Memorial -->
+  <g transform="translate(232 300)" filter="url(#rm-shadow)">
+    <use href="#ic-medbase"/>
+    <g class="rm-ic">
+      <rect x="-12" y="4" width="24" height="8" fill="#2E6B47"/>
+      <rect x="-9" y="-4" width="18" height="9" fill="#2E6B47"/>
+      <path d="M-9 -4 C-9 -16 9 -16 9 -4 Z" fill="#4E8261"/>
+      <circle cx="0" cy="-16" r="2" fill="#E8B04B"/>
+    </g>
+  </g>
+  <text x="232" y="338" class="rm-place" text-anchor="middle">Lancaster</text>
+
+  <!-- Jubilee Tower / climb 1 -->
+  <g transform="translate(352 262)" filter="url(#rm-shadow)">
+    <use href="#ic-medbase"/>
+    <g class="rm-ic">
+      <path d="M-9 12 L-7 -6 L7 -6 L9 12 Z" fill="#2E6B47"/>
+      <g fill="#2E6B47"><rect x="-8" y="-10" width="4" height="5"/><rect x="-2" y="-10" width="4" height="5"/><rect x="4" y="-10" width="4" height="5"/></g>
+      <rect x="-2" y="4" width="4" height="8" fill="#FBF6EC"/>
+    </g>
+    <g fill="#E8B04B" stroke="#B9822A" stroke-width="0.8"><path d="M20 -16 l6 6 l-6 6" fill="none" stroke="#E8B04B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>
+  </g>
+  <text x="352" y="234" class="rm-place rm-climb" text-anchor="middle">Côte de Jubilee Tower</text>
+  <text x="352" y="300" class="rm-sub" text-anchor="middle">Climb 1 of 5</text>
+
+  <!-- Forest of Bowland -->
+  <g transform="translate(486 232)" filter="url(#rm-shadow)">
+    <use href="#ic-medbase"/>
+    <g class="rm-ic">
+      <path d="M-14 10 C-8 -4 -2 -2 2 4 C6 -8 10 -10 14 10 Z" fill="#2E6B47"/>
+      <path d="M-5 2 l4 -8 l4 6" fill="none" stroke="#4E8261" stroke-width="1.6" stroke-linecap="round"/>
+    </g>
+  </g>
+  <text x="486" y="204" class="rm-place" text-anchor="middle">Bowland fells</text>
+
+  <!-- Clitheroe castle -->
+  <g transform="translate(628 286)" filter="url(#rm-shadow)">
+    <use href="#ic-medbase"/>
+    <g class="rm-ic">
+      <rect x="-11" y="-4" width="22" height="16" fill="#2E6B47"/>
+      <g fill="#2E6B47"><rect x="-11" y="-9" width="5" height="6"/><rect x="-3" y="-9" width="5" height="6"/><rect x="5" y="-9" width="6" height="6"/></g>
+      <rect x="-2.5" y="3" width="5" height="9" fill="#FBF6EC"/>
+      <path d="M11 -9 l6 -4 l0 4 Z" fill="#C8102E"/>
+    </g>
+  </g>
+  <text x="650" y="290" class="rm-place">Clitheroe</text>
+
+  <!-- Whalley viaduct -->
+  <g transform="translate(662 356)" filter="url(#rm-shadow)">
+    <use href="#ic-medbase"/>
+    <g class="rm-ic" fill="#2E6B47">
+      <rect x="-14" y="-8" width="28" height="4"/>
+      <path d="M-14 -4 h6 v6 a3 3 0 0 1 -6 0 Z"/><path d="M-4 -4 h6 v6 a3 3 0 0 1 -6 0 Z"/><path d="M6 -4 h6 v6 a3 3 0 0 1 -6 0 Z"/>
+      <rect x="-14" y="8" width="28" height="3"/>
+    </g>
+  </g>
+  <text x="684" y="360" class="rm-place">Whalley</text>
+
+  <!-- Blackburn cathedral -->
+  <g transform="translate(626 432)" filter="url(#rm-shadow)">
+    <use href="#ic-medbase"/>
+    <g class="rm-ic" fill="#2E6B47">
+      <rect x="-4" y="-12" width="8" height="24"/>
+      <path d="M-4 -12 L0 -18 L4 -12 Z"/>
+      <rect x="-12" y="0" width="8" height="12"/><rect x="4" y="0" width="8" height="12"/>
+      <rect x="-1.5" y="4" width="3" height="8" fill="#FBF6EC"/>
+    </g>
+  </g>
+  <text x="648" y="436" class="rm-place">Blackburn</text>
+
+  <!-- Chorley / Astley Hall -->
+  <g transform="translate(492 492)" filter="url(#rm-shadow)">
+    <use href="#ic-medbase"/>
+    <g class="rm-ic" fill="#2E6B47">
+      <rect x="-12" y="-2" width="24" height="14"/>
+      <path d="M-12 -2 L0 -12 L12 -2 Z"/>
+      <rect x="-9" y="2" width="4" height="4" fill="#FBF6EC"/><rect x="-2" y="2" width="4" height="4" fill="#FBF6EC"/><rect x="5" y="2" width="4" height="4" fill="#FBF6EC"/>
+    </g>
+  </g>
+  <text x="492" y="530" class="rm-place" text-anchor="middle">Chorley</text>
+
+  <!-- West Lancashire small node -->
+  <g transform="translate(332 527)"><circle r="6" fill="#FBF6EC" stroke="#2E6B47" stroke-width="3"/></g>
+  <text x="332" y="552" class="rm-place rm-place--sm" text-anchor="middle">West Lancashire</text>
+
+  <!-- Liverpool / finish -->
+  <g transform="translate(184 588)" filter="url(#rm-shadow)">
+    <use href="#ic-medbase"/>
+    <g class="rm-ic">
+      <rect x="-5" y="-14" width="10" height="26" fill="#2E6B47"/>
+      <rect x="-9" y="-2" width="18" height="14" fill="#2E6B47"/>
+      <rect x="-3" y="-18" width="6" height="4" fill="#2E6B47"/>
+      <path d="M0 -20 q4 -1 5 2 q-3 0 -5 -2 Z" fill="#C8102E"/>
+      <rect x="-2" y="2" width="4" height="10" fill="#FBF6EC"/>
+    </g>
+  </g>
+  <text x="184" y="550" class="rm-label" text-anchor="middle">FINISH</text>
+  <text x="184" y="636" class="rm-place" text-anchor="middle">Liverpool</text>
 
   <!-- compass -->
-  <g transform="translate(845 70)" opacity="0.75">
-    <circle r="20" fill="none" stroke="#1B4332" stroke-width="1.5"/>
-    <path d="M0 -16 L5 2 L0 -2 L-5 2 Z" fill="#C8102E"/>
-    <path d="M0 16 L5 -2 L0 2 L-5 -2 Z" fill="#1B4332"/>
-    <text x="0" y="-24" class="map-sub" text-anchor="middle">N</text>
+  <g transform="translate(915 90)" opacity="0.85">
+    <circle r="26" fill="#FBF6EC" stroke="#1B4332" stroke-width="1.6"/>
+    <circle r="26" fill="none" stroke="#E8B04B" stroke-width="1" opacity="0.7"/>
+    <path d="M0 -20 L6 0 L0 -5 L-6 0 Z" fill="#C8102E"/>
+    <path d="M0 20 L6 0 L0 5 L-6 0 Z" fill="#1B4332"/>
+    <text x="0" y="-30" class="rm-sub" text-anchor="middle">N</text>
+  </g>
+
+  <!-- title cartouche -->
+  <g>
+    <rect x="330" y="636" width="440" height="52" rx="10" fill="#1B4332"/>
+    <rect x="335" y="641" width="430" height="42" rx="7" fill="none" stroke="#E8B04B" stroke-width="1" opacity="0.7"/>
+    <text x="550" y="659" class="rm-title" text-anchor="middle">STAGE 2 &#183; KESWICK TO LIVERPOOL</text>
+    <text x="550" y="677" class="rm-title-sub" text-anchor="middle">223 km &#183; roughly 80 miles through Lancashire</text>
   </g>
 </svg>
