@@ -1,0 +1,38 @@
+<svg class="rose" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lancashire red rose">
+  <g>
+    <!-- green barbs (sepals) between the petals -->
+    <g fill="#2E7D53">
+      <path d="M100 96 C112 78 112 44 100 22 C88 44 88 78 100 96 Z" transform="rotate(36 100 100)"/>
+      <path d="M100 96 C112 78 112 44 100 22 C88 44 88 78 100 96 Z" transform="rotate(108 100 100)"/>
+      <path d="M100 96 C112 78 112 44 100 22 C88 44 88 78 100 96 Z" transform="rotate(180 100 100)"/>
+      <path d="M100 96 C112 78 112 44 100 22 C88 44 88 78 100 96 Z" transform="rotate(252 100 100)"/>
+      <path d="M100 96 C112 78 112 44 100 22 C88 44 88 78 100 96 Z" transform="rotate(324 100 100)"/>
+    </g>
+    <!-- outer petals -->
+    <g fill="#C8102E">
+      <path d="M100 100 C74 72 74 44 100 26 C126 44 126 72 100 100 Z" transform="rotate(0 100 100)"/>
+      <path d="M100 100 C74 72 74 44 100 26 C126 44 126 72 100 100 Z" transform="rotate(72 100 100)"/>
+      <path d="M100 100 C74 72 74 44 100 26 C126 44 126 72 100 100 Z" transform="rotate(144 100 100)"/>
+      <path d="M100 100 C74 72 74 44 100 26 C126 44 126 72 100 100 Z" transform="rotate(216 100 100)"/>
+      <path d="M100 100 C74 72 74 44 100 26 C126 44 126 72 100 100 Z" transform="rotate(288 100 100)"/>
+    </g>
+    <!-- inner petals, offset and darker -->
+    <g fill="#9E0B25">
+      <path d="M100 100 C86 82 86 62 100 50 C114 62 114 82 100 100 Z" transform="rotate(36 100 100)"/>
+      <path d="M100 100 C86 82 86 62 100 50 C114 62 114 82 100 100 Z" transform="rotate(108 100 100)"/>
+      <path d="M100 100 C86 82 86 62 100 50 C114 62 114 82 100 100 Z" transform="rotate(180 100 100)"/>
+      <path d="M100 100 C86 82 86 62 100 50 C114 62 114 82 100 100 Z" transform="rotate(252 100 100)"/>
+      <path d="M100 100 C86 82 86 62 100 50 C114 62 114 82 100 100 Z" transform="rotate(324 100 100)"/>
+    </g>
+    <!-- golden seed centre -->
+    <circle cx="100" cy="100" r="13" fill="#E8B04B"/>
+    <g fill="#B9822A">
+      <circle cx="100" cy="92" r="2.4"/>
+      <circle cx="107.6" cy="97.5" r="2.4"/>
+      <circle cx="104.7" cy="106.5" r="2.4"/>
+      <circle cx="95.3" cy="106.5" r="2.4"/>
+      <circle cx="92.4" cy="97.5" r="2.4"/>
+      <circle cx="100" cy="100" r="2.4"/>
+    </g>
+  </g>
+</svg>

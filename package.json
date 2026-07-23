@@ -1,0 +1,12 @@
+{
+  "name": "tourdefrancelancashire",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Independent visitor guide to the 2027 Tour de France in Lancashire",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "preview": "node build.mjs && node -e \"import('node:http').then(({default:h})=>import('node:fs').then(({readFileSync,existsSync})=>{const t={'.html':'text/html','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.xml':'application/xml','.txt':'text/plain'};h.createServer((q,r)=>{let p='dist'+q.url.split('?')[0];if(p.endsWith('/'))p+='index.html';if(existsSync(p+'/index.html'))p+='/index.html';if(!existsSync(p)){r.statusCode=404;return r.end('404')}const e=p.slice(p.lastIndexOf('.'));r.setHeader('content-type',t[e]||'application/octet-stream');r.end(readFileSync(p))}).listen(8799,()=>console.log('http://localhost:8799'))}))\""
+  },
+  "license": "UNLICENSED"
+}

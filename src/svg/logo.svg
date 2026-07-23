@@ -1,0 +1,24 @@
+<svg class="logo-mark" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tour de France Lancashire emblem">
+  <!-- wheel ring -->
+  <circle cx="32" cy="32" r="30" fill="#FBF6EC" stroke="#1B4332" stroke-width="2.5"/>
+  <circle cx="32" cy="32" r="23.5" fill="none" stroke="#2E7D53" stroke-width="1" opacity="0.5"/>
+  <!-- spokes -->
+  <g stroke="#2E7D53" stroke-width="1" opacity="0.45">
+    <line x1="32" y1="9" x2="32" y2="55"/>
+    <line x1="9" y1="32" x2="55" y2="32"/>
+    <line x1="15.7" y1="15.7" x2="48.3" y2="48.3"/>
+    <line x1="48.3" y1="15.7" x2="15.7" y2="48.3"/>
+  </g>
+  <!-- rose hub -->
+  <g transform="translate(32 32) scale(0.19) translate(-100 -100)">
+    <g fill="#C8102E">
+      <path d="M100 100 C74 72 74 44 100 26 C126 44 126 72 100 100 Z" transform="rotate(0 100 100)"/>
+      <path d="M100 100 C74 72 74 44 100 26 C126 44 126 72 100 100 Z" transform="rotate(72 100 100)"/>
+      <path d="M100 100 C74 72 74 44 100 26 C126 44 126 72 100 100 Z" transform="rotate(144 100 100)"/>
+      <path d="M100 100 C74 72 74 44 100 26 C126 44 126 72 100 100 Z" transform="rotate(216 100 100)"/>
+      <path d="M100 100 C74 72 74 44 100 26 C126 44 126 72 100 100 Z" transform="rotate(288 100 100)"/>
+    </g>
+    <circle cx="100" cy="100" r="26" fill="#E8B04B"/>
+    <circle cx="100" cy="100" r="11" fill="#B9822A"/>
+  </g>
+</svg>

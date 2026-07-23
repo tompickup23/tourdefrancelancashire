@@ -1,0 +1,13 @@
+<svg class="lm" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of Pendle Hill rising over the Ribble Valley">
+  <defs><linearGradient id="pd-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DDE7EC"/><stop offset="1" stop-color="#FBF6EC"/></linearGradient></defs>
+  <rect width="320" height="220" fill="url(#pd-sky)"/>
+  <!-- clouds -->
+  <g fill="#FFFFFF" opacity="0.65"><ellipse cx="70" cy="52" rx="34" ry="12"/><ellipse cx="96" cy="46" rx="22" ry="10"/></g>
+  <!-- Pendle whaleback -->
+  <path d="M-10 168 C40 150 90 120 150 92 C176 80 210 78 260 92 C300 104 320 120 330 132 L330 220 L-10 220 Z" fill="#5E7E6A"/>
+  <path d="M-10 176 C50 160 110 140 170 122 C210 110 250 112 300 128 C316 133 330 140 330 146 L330 220 L-10 220 Z" fill="#3E6350"/>
+  <!-- fields -->
+  <path d="M-10 200 C80 186 220 188 330 200 L330 220 L-10 220 Z" fill="#6E8F4E"/>
+  <g stroke="#4C6A35" stroke-width="1" opacity="0.5"><path d="M40 206 L70 220"/><path d="M140 204 L120 220"/><path d="M230 206 L250 220"/></g>
+  <circle cx="252" cy="60" r="18" fill="#E8B04B" opacity="0.6"/>
+</svg>

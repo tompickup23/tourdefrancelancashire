@@ -1,0 +1,20 @@
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/" aria-label="{{site.name}}, home">
+      {{> logo}}
+      <span class="brand-text">
+        <span class="brand-text__top">Tour de France</span>
+        <span class="brand-text__bottom">Lancashire</span>
+      </span>
+    </a>
+
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-burger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </label>
+
+    <nav class="site-nav" aria-label="Primary">
+      {{nav}}
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,17 @@
+<svg class="lm" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of the Forest of Bowland fells with a winding road">
+  <defs><linearGradient id="bw-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6E9C9"/><stop offset="1" stop-color="#FBF6EC"/></linearGradient></defs>
+  <rect width="320" height="220" fill="url(#bw-sky)"/>
+  <circle cx="248" cy="58" r="26" fill="#E8B04B" opacity="0.85"/>
+  <path d="M0 128 C70 96 130 120 190 108 C240 98 290 118 320 106 L320 220 L0 220 Z" fill="#7FA98C"/>
+  <path d="M0 150 C60 128 120 150 180 140 C250 128 300 150 320 142 L320 220 L0 220 Z" fill="#4E8261"/>
+  <path d="M0 176 C80 158 150 176 220 168 C270 162 300 174 320 172 L320 220 L0 220 Z" fill="#2E6B47"/>
+  <path d="M0 200 C80 186 150 202 320 190 L320 220 L0 220 Z" fill="#1B4332"/>
+  <path d="M60 220 C120 196 150 208 168 186 C182 168 214 168 236 160" fill="none" stroke="#EFE4C6" stroke-width="7" stroke-linecap="round"/>
+  <path d="M60 220 C120 196 150 208 168 186 C182 168 214 168 236 160" fill="none" stroke="#C9BE9B" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 12"/>
+  <!-- cyclist -->
+  <g transform="translate(150 190)" stroke="#17171F" stroke-width="2.4" fill="none" stroke-linecap="round">
+    <circle cx="-6" cy="6" r="5"/><circle cx="10" cy="6" r="5"/>
+    <path d="M-6 6 L2 6 L8 -2 L10 6 M2 6 L4 -3 L11 -3"/>
+    <circle cx="4" cy="-7" r="2.6" fill="#C8102E" stroke="none"/>
+  </g>
+</svg>

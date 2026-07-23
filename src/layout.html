@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{page.fullTitle}}</title>
+  <meta name="description" content="{{page.description}}" />
+  <link rel="canonical" href="{{page.canonical}}" />
+  <meta name="theme-color" content="{{site.themeColor}}" />
+
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="{{site.name}}" />
+  <meta property="og:title" content="{{page.fullTitle}}" />
+  <meta property="og:description" content="{{page.description}}" />
+  <meta property="og:url" content="{{page.canonical}}" />
+  <meta property="og:locale" content="en_GB" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/site.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "Tour de France 2027: Stage 2 in Lancashire",
+    "startDate": "2027-07-03",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "description": "Stage 2 of the 2027 Tour de France races roughly 80 miles through Lancashire on Saturday 3 July 2027, from Keswick to Liverpool.",
+    "location": { "@type": "Place", "name": "Lancashire, England", "address": { "@type": "PostalAddress", "addressRegion": "Lancashire", "addressCountry": "GB" } },
+    "isAccessibleForFree": true
+  }
+  </script>
+</head>
+<body class="{{page.bodyClass}}">
+  <a class="skip-link" href="#main">Skip to content</a>
+  {{> header}}
+  <main id="main">
+    {{content}}
+  </main>
+  {{> footer}}
+</body>
+</html>

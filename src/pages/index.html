@@ -1,0 +1,134 @@
+<!--
+title:
+description: Your independent guide to the 2027 Tour de France in Lancashire. Stage 2 races through the county on Saturday 3 July 2027: the route, places to stay, things to see and the latest news.
+active: home
+-->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">Grand Départ GB · Stage 2 · 3 July 2027</span>
+      <h1>The <span class="hl">Tour de France</span> comes to Lancashire</h1>
+      <p class="lede">On Saturday 3 July 2027, the world's greatest bike race sweeps roughly 80 miles through Lancashire, from the Morecambe Bay coast, over the fells of Bowland, and down through the Ribble Valley on its way to Liverpool. This is your independent guide to the day, the county and everything around it.</p>
+
+      <div class="hero-meta">
+        <div class="m"><b>Sat 3 Jul</b><span>2027</span></div>
+        <div class="m"><b>~80 mi</b><span>through Lancashire</span></div>
+        <div class="m"><b>5</b><span>categorised climbs</span></div>
+        <div class="m"><b>223 km</b><span>full stage</span></div>
+      </div>
+
+      <div id="countdown" class="countdown" aria-label="Countdown to the Lancashire stage"></div>
+
+      <div class="hero-cta">
+        <a class="btn btn--primary" href="/route/">Explore the route</a>
+        <a class="btn btn--ghost" href="/plan/">Plan your day</a>
+      </div>
+    </div>
+
+    <div class="hero-map">
+      <div class="map-frame">
+        {{> route-map}}
+        <div class="map-caption">
+          <span class="tag">Stage 2 · Keswick &rarr; Liverpool</span>
+          <span class="sub">Indicative route · not to scale</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-paper2">
+  <div class="wrap">
+    <div class="facts">
+      <div class="fact"><b>223 km</b><span>Total Stage 2 distance, Keswick to the Liverpool waterfront (about 139 miles).</span></div>
+      <div class="fact"><b>~80 mi</b><span>Of the stage run through Lancashire, from Carnforth to West Lancashire.</span></div>
+      <div class="fact"><b>£15m+</b><span>Extra economic activity for Lancashire, per county council modelling.</span></div>
+      <div class="fact"><b>Free</b><span>Billed as the largest free sporting spectacle in British history.</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">The Lancashire day</span>
+      <h2>A county-sized grandstand</h2>
+      <p class="lede">Stage 2 falls on a Saturday, which turns a single afternoon of racing into a proper Lancashire weekend. The peloton crosses into the county on the Morecambe Bay coast, tackles its first big climb (the Côte de Jubilee Tower above Lancaster), then threads the wild fells of the Forest of Bowland and the market towns of the Ribble Valley before heading south towards Merseyside.</p>
+    </div>
+
+    <div class="grid grid-3">
+      <a class="card" href="/route/">
+        {{> lm-morecambe}}
+        <div class="card__body">
+          <span class="card__kicker">The Route</span>
+          <h3>Town by town, climb by climb</h3>
+          <p>Follow the full Lancashire corridor, the five categorised climbs and the best places to catch the race.</p>
+          <span class="card__link">See the route &rarr;</span>
+        </div>
+      </a>
+      <a class="card" href="/stay/">
+        {{> lm-clitheroe}}
+        <div class="card__body">
+          <span class="card__kicker">Places to Stay</span>
+          <h3>Make a weekend of it</h3>
+          <p>Where to base yourself along the route, from the coast to the Ribble Valley and the fells.</p>
+          <span class="card__link">Find your base &rarr;</span>
+        </div>
+      </a>
+      <a class="card" href="/see/">
+        {{> lm-bowland}}
+        <div class="card__body">
+          <span class="card__kicker">See &amp; Do</span>
+          <h3>Landmarks on the doorstep</h3>
+          <p>Castles, coast, national landscapes and market towns: the best of Lancashire near the route.</p>
+          <span class="card__link">Explore nearby &rarr;</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="bg-green">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">The landmarks of the route</span>
+      <h2>Lancashire, at its best</h2>
+      <p class="lede">Every mile of the Lancashire stage is a postcard: moorland towers, medieval keeps, Art Deco seafronts and the sweeping fells of a National Landscape.</p>
+    </div>
+    <div class="theme-strip">
+      {{> lm-ashton}}
+      {{> lm-jubilee}}
+      {{> lm-bowland}}
+      {{> lm-clitheroe}}
+      {{> lm-pendle}}
+      {{> lm-morecambe}}
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Latest news</span>
+      <h2>What we know so far</h2>
+      <p class="lede">Route confirmations, planning updates and everything Lancashire needs to know as 2027 approaches.</p>
+    </div>
+    <div class="news-grid">
+      {{news_cards}}
+    </div>
+  </div>
+</section>
+
+<section class="bg-paper2 cta-band">
+  <div class="wrap">
+    <span class="eyebrow" style="justify-content:center">Be there</span>
+    <h2>One free Saturday. A once-in-a-generation view.</h2>
+    <p>Plan where to watch, where to stay and what to see while the world's biggest bike race rolls through Lancashire.</p>
+    <div class="hero-cta" style="justify-content:center">
+      <a class="btn btn--primary" href="/plan/">Plan your day</a>
+      <a class="btn btn--light" href="/route/">See the route</a>
+    </div>
+  </div>
+</section>
+
+<script src="/js/countdown.js" defer></script>

@@ -1,0 +1,52 @@
+{
+  "site": {
+    "name": "Tour de France Lancashire",
+    "shortName": "TdF Lancashire",
+    "tagline": "The independent visitor guide to the 2027 Grand Départ in Lancashire",
+    "domain": "tourdefrancelancashire.co.uk",
+    "url": "https://tourdefrancelancashire.co.uk",
+    "description": "Your independent guide to the 2027 Tour de France in Lancashire. Stage 2 races through the county on Saturday 3 July 2027. Route, places to stay, things to see and the latest news.",
+    "themeColor": "#C8102E"
+  },
+  "stage": {
+    "number": 2,
+    "date": "2027-07-03",
+    "dateLong": "Saturday 3 July 2027",
+    "day": "Saturday",
+    "start": "Keswick",
+    "finish": "The Strand, Liverpool",
+    "distanceKm": 223,
+    "distanceMiles": 139,
+    "lancashireMiles": 80,
+    "climbsInLancashire": 5,
+    "economicImpact": "£15 million+"
+  },
+  "nav": [
+    { "label": "The Route", "href": "/route/", "id": "route" },
+    { "label": "Places to Stay", "href": "/stay/", "id": "stay" },
+    { "label": "See & Do", "href": "/see/", "id": "see" },
+    { "label": "Plan Your Day", "href": "/plan/", "id": "plan" },
+    { "label": "News", "href": "/news/", "id": "news" },
+    { "label": "About", "href": "/about/", "id": "about" }
+  ],
+  "routeStops": [
+    { "name": "Keswick", "county": "Cumbria", "note": "Stage 2 rolls out from the Lake District town of Keswick.", "type": "start" },
+    { "name": "Morecambe Bay", "county": "Lancashire", "note": "The race sweeps onto the Morecambe Bay coastline as it enters Lancashire.", "type": "town" },
+    { "name": "Carnforth", "county": "Lancashire", "note": "Historic railway town on the northern edge of the county.", "type": "town" },
+    { "name": "Morecambe", "county": "Lancashire", "note": "Seaside resort with Art Deco heritage and sweeping bay views.", "type": "town" },
+    { "name": "Lancaster", "county": "Lancashire", "note": "The county's historic city, gateway to the Lancashire fells.", "type": "town" },
+    { "name": "Côte de Jubilee Tower", "county": "Lancashire", "note": "The first big categorised climb, on the moors above Lancaster.", "type": "climb" },
+    { "name": "Forest of Bowland", "county": "Lancashire", "note": "A designated National Landscape of wild fells and quiet valleys.", "type": "town" },
+    { "name": "Clitheroe", "county": "Lancashire", "note": "Ribble Valley market town beneath its Norman castle keep.", "type": "town" },
+    { "name": "Whalley & Langho", "county": "Lancashire", "note": "Ribble Valley villages known for the abbey and the viaduct.", "type": "town" },
+    { "name": "Blackburn", "county": "Lancashire", "note": "Major East Lancashire town with its landmark cathedral.", "type": "town" },
+    { "name": "Chorley", "county": "Lancashire", "note": "Central Lancashire town at the heart of the stage's second half.", "type": "town" },
+    { "name": "West Lancashire", "county": "Lancashire", "note": "The plain of West Lancashire carries the race towards Merseyside.", "type": "town" },
+    { "name": "The Strand, Liverpool", "county": "Merseyside", "note": "A sprint finish along the waterfront beneath the Three Graces.", "type": "finish" }
+  ],
+  "sources": [
+    { "label": "Grand Départ GB 2027 — Stage 2", "url": "https://www.letourgb.com/tdfroutes/stage-2/" },
+    { "label": "Lancashire County Council — Tour de France coming through Lancashire (15 Jan 2026)", "url": "https://news.lancashire.gov.uk/news/tour-de-france-coming-through-lancashire" },
+    { "label": "UK Sport — Le Tour GB route announcement (15 Jan 2026)", "url": "https://www.uksport.gov.uk/news/2026/01/15/le-tour-gb-route" }
+  ]
+}

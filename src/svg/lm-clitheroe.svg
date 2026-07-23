@@ -1,0 +1,19 @@
+<svg class="lm" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of Clitheroe Castle keep on its limestone knoll">
+  <defs><linearGradient id="cl-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EAE9DA"/><stop offset="1" stop-color="#FBF6EC"/></linearGradient></defs>
+  <rect width="320" height="220" fill="url(#cl-sky)"/>
+  <circle cx="70" cy="56" r="20" fill="#E8B04B" opacity="0.65"/>
+  <!-- distant Pendle -->
+  <path d="M0 118 C60 96 130 92 200 104 C210 112 214 118 320 120 L320 220 L0 220 Z" fill="#9FB3B0" opacity="0.7"/>
+  <!-- knoll -->
+  <path d="M96 210 C120 120 200 120 224 210 Z" fill="#4E8261"/>
+  <path d="M96 210 C120 132 200 132 224 210 Z" fill="#3B6B4D"/>
+  <!-- keep -->
+  <g transform="translate(160 96)" fill="#C7BBA2" stroke="#8C8069" stroke-width="1.5">
+    <rect x="-26" y="8" width="52" height="46"/>
+    <g fill="#C7BBA2"><rect x="-26" y="0" width="10" height="12"/><rect x="-12" y="0" width="10" height="12"/><rect x="2" y="0" width="10" height="12"/><rect x="16" y="0" width="10" height="12"/></g>
+    <rect x="-6" y="34" width="12" height="20" fill="#5B5344"/>
+    <rect x="-18" y="16" width="8" height="10" fill="#5B5344"/>
+    <rect x="10" y="16" width="8" height="10" fill="#5B5344"/>
+  </g>
+  <path d="M0 196 C120 182 210 184 320 196 L320 220 L0 220 Z" fill="#2E6B47"/>
+</svg>

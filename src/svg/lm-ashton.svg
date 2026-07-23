@@ -1,0 +1,26 @@
+<svg class="lm" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of the Ashton Memorial, Williamson Park, Lancaster">
+  <defs><linearGradient id="as-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDE7F2"/><stop offset="1" stop-color="#FBF6EC"/></linearGradient></defs>
+  <rect width="320" height="220" fill="url(#as-sky)"/>
+  <circle cx="66" cy="60" r="22" fill="#E8B04B" opacity="0.7"/>
+  <path d="M0 168 C90 150 230 150 320 168 L320 220 L0 220 Z" fill="#4E8261"/>
+  <path d="M0 190 C110 176 220 176 320 190 L320 220 L0 220 Z" fill="#2E6B47"/>
+  <!-- monument -->
+  <g transform="translate(160 40)" fill="#E7E0D2" stroke="#B9AE97" stroke-width="1.5">
+    <!-- base steps -->
+    <rect x="-58" y="128" width="116" height="10"/>
+    <rect x="-48" y="118" width="96" height="12"/>
+    <!-- body -->
+    <rect x="-40" y="70" width="80" height="50"/>
+    <!-- columns -->
+    <g fill="#F4EFE4"><rect x="-36" y="72" width="7" height="46"/><rect x="-20" y="72" width="7" height="46"/><rect x="13" y="72" width="7" height="46"/><rect x="29" y="72" width="7" height="46"/></g>
+    <!-- entablature -->
+    <rect x="-44" y="62" width="88" height="10"/>
+    <!-- drum -->
+    <rect x="-30" y="40" width="60" height="24" rx="4"/>
+    <!-- dome -->
+    <path d="M-32 40 C-32 8 32 8 32 40 Z" fill="#5E8C7B" stroke="#3F6857"/>
+    <!-- cupola + finial -->
+    <path d="M-9 12 C-9 2 9 2 9 12 Z" fill="#5E8C7B" stroke="#3F6857"/>
+    <circle cx="0" cy="0" r="3" fill="#E8B04B" stroke="#B9822A"/>
+  </g>
+</svg>
