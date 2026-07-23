@@ -1,0 +1,93 @@
+<svg class="hero-scene" viewBox="0 0 1440 820" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Illustration of a cyclist riding through the Lancashire fells at sunrise, with a moorland tower and a domed memorial on the distant hills">
+  <defs>
+    <linearGradient id="hs-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7C9A0"/>
+      <stop offset="0.32" stop-color="#F6DCB4"/>
+      <stop offset="0.62" stop-color="#EDE6CF"/>
+      <stop offset="1" stop-color="#E7ECE0"/>
+    </linearGradient>
+    <radialGradient id="hs-sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFE9B0" stop-opacity="0.95"/>
+      <stop offset="0.4" stop-color="#F4B65E" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#F4B65E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hs-far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B9C3C9"/><stop offset="1" stop-color="#AEBEC0"/></linearGradient>
+    <linearGradient id="hs-far2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9DB4A8"/><stop offset="1" stop-color="#8FA894"/></linearGradient>
+    <linearGradient id="hs-mid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E9670"/><stop offset="1" stop-color="#5C8862"/></linearGradient>
+    <linearGradient id="hs-near" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3E6E4C"/><stop offset="1" stop-color="#2E5C40"/></linearGradient>
+    <path id="roadPath" d="M708 452 C762 482 690 520 764 556 C852 600 980 598 1008 656 C1038 716 1150 708 1244 792" fill="none"/>
+  </defs>
+
+  <rect width="1440" height="820" fill="url(#hs-sky)"/>
+
+  <!-- sun -->
+  <g>
+    <circle cx="470" cy="300" r="240" fill="url(#hs-sun)">
+      <animate attributeName="r" values="230;250;230" dur="9s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="470" cy="300" r="74" fill="#FBE3A6" opacity="0.92"/>
+  </g>
+
+  <!-- drifting clouds -->
+  <g fill="#FFFFFF" opacity="0.5">
+    <g><ellipse cx="980" cy="150" rx="120" ry="26"/><ellipse cx="1050" cy="135" rx="80" ry="20"/>
+      <animateTransform attributeName="transform" type="translate" values="0 0; 60 0; 0 0" dur="40s" repeatCount="indefinite"/></g>
+    <g opacity="0.75"><ellipse cx="300" cy="110" rx="90" ry="20"/>
+      <animateTransform attributeName="transform" type="translate" values="0 0; -50 0; 0 0" dur="52s" repeatCount="indefinite"/></g>
+  </g>
+
+  <!-- birds -->
+  <g stroke="#4B5A50" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7">
+    <g>
+      <path d="M-10 0 Q-5 -6 0 0 Q5 -6 10 0"/>
+      <path d="M18 8 Q22 3 26 8 Q30 3 34 8" stroke-width="2"/>
+      <animateTransform attributeName="transform" type="translate" values="740 210; 900 170; 1060 150" dur="26s" repeatCount="indefinite"/>
+    </g>
+  </g>
+
+  <!-- far fells -->
+  <path d="M0 470 C160 420 320 452 470 430 C640 405 820 452 1010 428 C1200 405 1340 442 1440 428 L1440 560 L0 560 Z" fill="url(#hs-far)"/>
+  <!-- distant landmark silhouettes -->
+  <g fill="#A7B7BC" opacity="0.9">
+    <!-- Jubilee Tower on a ridge -->
+    <g transform="translate(250 430)"><rect x="-6" y="-30" width="12" height="30"/><rect x="-8" y="-34" width="4" height="6"/><rect x="-1" y="-34" width="4" height="6"/><rect x="5" y="-34" width="3" height="6"/></g>
+    <!-- Ashton dome on another ridge -->
+    <g transform="translate(1120 424)"><rect x="-16" y="-14" width="32" height="14"/><path d="M-13 -14 C-13 -30 13 -30 13 -14 Z"/></g>
+  </g>
+
+  <path d="M0 500 C180 460 360 492 540 470 C740 446 940 492 1140 470 C1290 454 1380 486 1440 476 L1440 620 L0 620 Z" fill="url(#hs-far2)"/>
+
+  <!-- mid fells -->
+  <path d="M0 556 C220 512 420 556 640 536 C880 514 1080 560 1280 540 C1360 532 1410 548 1440 544 L1440 700 L0 700 Z" fill="url(#hs-mid)"/>
+
+  <!-- near hill with road -->
+  <path d="M0 660 C240 616 520 648 760 636 C1000 624 1240 664 1440 640 L1440 820 L0 820 Z" fill="url(#hs-near)"/>
+
+  <!-- road ribbon (perspective: narrow at horizon, wide near foreground) -->
+  <path d="M706 453 C760 486 688 520 758 557 C848 603 974 601 1000 657 C1026 713 1132 707 1208 789
+           L1268 789 C1176 703 1074 711 1046 659 C1018 607 900 609 812 565 C754 535 800 502 748 471 C732 462 720 458 712 455 Z"
+        fill="#E7DCC0"/>
+  <use href="#roadPath" stroke="#F3EEDD" stroke-width="2.5" stroke-dasharray="9 13" stroke-linecap="round" opacity="0.85"/>
+
+  <!-- foreground gorse -->
+  <g fill="#E8B04B" opacity="0.85">
+    <circle cx="120" cy="770" r="5"/><circle cx="360" cy="796" r="6"/><circle cx="1330" cy="784" r="5"/><circle cx="70" cy="800" r="4"/>
+  </g>
+
+  <!-- cyclist riding the road -->
+  <g>
+    <g>
+      <g stroke="#173a23" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="-10" cy="0" r="6.4"/>
+        <circle cx="10" cy="0" r="6.4"/>
+        <path d="M-10 0 L0 0 L7 -10 L10 0 M0 0 L3 -11 L11 -11"/>
+      </g>
+      <path d="M3 -11 L7 -4" stroke="#C8102E" stroke-width="3.4" stroke-linecap="round"/>
+      <circle cx="9.5" cy="-14.5" r="3.1" fill="#C8102E"/>
+      <animateTransform attributeName="transform" type="scale" values="0.5;0.6;0.95;1.2" keyTimes="0;0.3;0.7;1" dur="15s" repeatCount="indefinite" additive="sum"/>
+    </g>
+    <animateMotion dur="15s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="linear">
+      <mpath href="#roadPath"/>
+    </animateMotion>
+  </g>
+</svg>

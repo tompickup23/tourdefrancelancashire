@@ -313,3 +313,86 @@ a.card:hover .card__link { text-decoration: underline; }
   .theme-strip { grid-template-columns: repeat(2, 1fr); }
   .hero-meta { gap: 0.6rem 1.3rem; }
 }
+
+/* =========================================================================
+   AESTHETIC UPGRADE : cinematic hero, motion, glass UI
+   ========================================================================= */
+
+/* ---- Cinematic hero --------------------------------------------------- */
+.hero { position: relative; min-height: min(94vh, 940px); display: flex; align-items: center; overflow: hidden; padding: 0; isolation: isolate; }
+.hero::before { content: none; }
+.hero-scene-wrap { position: absolute; inset: 0; z-index: 0; }
+.hero-scene { width: 100%; height: 100%; display: block; }
+.hero::after { content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(96deg, rgba(14,27,19,0.74) 0%, rgba(14,27,19,0.46) 36%, rgba(14,27,19,0.08) 62%, transparent 80%); }
+.hero-content { position: relative; z-index: 2; max-width: 680px; color: #fff; padding-block: 6rem; }
+.hero-title { color: #fff; font-size: clamp(2.7rem, 6.6vw, 5.4rem); line-height: 1.02; letter-spacing: -0.02em;
+  text-shadow: 0 2px 34px rgba(0,0,0,0.30); margin: 0.7rem 0 1.1rem; }
+.hero-title .hl { background: linear-gradient(100deg, #F7CB5C, #EE7B4E 58%, #E23150);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: #F4C15E; }
+.hero-sub { color: rgba(255,255,255,0.93); font-size: clamp(1.05rem, 1.7vw, 1.3rem); max-width: 52ch;
+  text-shadow: 0 1px 16px rgba(0,0,0,0.38); }
+.eyebrow--light { color: #F6C864; }
+.eyebrow--light::before { background: #F6C864; }
+
+.countdown--hero { margin: 1.9rem 0; }
+.countdown--hero .cd-unit { background: rgba(255,255,255,0.13); border: 1px solid rgba(255,255,255,0.30); backdrop-filter: blur(8px); box-shadow: 0 8px 24px rgba(0,0,0,0.18); }
+.countdown--hero .cd-unit b { color: #fff; }
+.countdown--hero .cd-unit span { color: rgba(255,255,255,0.82); }
+
+.hero-chips { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.7rem; }
+.chip { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.26); color: rgba(255,255,255,0.94);
+  padding: 0.5rem 1.05rem; border-radius: 999px; font-size: 0.92rem; backdrop-filter: blur(6px); }
+.chip b { color: #F6C864; font-family: var(--serif); font-weight: 700; margin-right: 0.35rem; }
+
+/* ---- Buttons (extra) -------------------------------------------------- */
+.btn--lg { padding: 1rem 1.9rem; font-size: 1.06rem; }
+.btn--glass { background: rgba(255,255,255,0.14); color: #fff; border-color: rgba(255,255,255,0.55); backdrop-filter: blur(6px); }
+.btn--glass:hover { background: rgba(255,255,255,0.24); transform: translateY(-2px); }
+.btn--outline-light { background: transparent; color: #fff; border-color: rgba(255,255,255,0.72); }
+.btn--outline-light:hover { background: #fff; color: var(--rose-deep); transform: translateY(-2px); }
+
+/* ---- Section head centred --------------------------------------------- */
+.section-head--center { text-align: center; margin-inline: auto; }
+.section-head--center .eyebrow { justify-content: center; }
+.section-head--center .lede { margin-inline: auto; }
+
+/* ---- Route showcase --------------------------------------------------- */
+.route-showcase__grid { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: clamp(1.6rem, 4vw, 3.6rem); align-items: center; }
+.route-showcase__copy h2 { margin: 0.6rem 0 1rem; }
+
+/* gradient highlight on light headings */
+h2 .hl { background: linear-gradient(100deg, var(--rose), var(--gold-deep)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* ---- Cards: framed art + zoom ---------------------------------------- */
+.card__art { overflow: hidden; aspect-ratio: 320/205; background: var(--paper-2); }
+.card__art .lm { width: 100%; height: 100%; aspect-ratio: auto; transition: transform 0.55s cubic-bezier(0.2,0.7,0.2,1); }
+a.card:hover .card__art .lm { transform: scale(1.06); }
+.theme-strip .lm { transition: transform 0.5s ease, filter 0.5s ease; }
+.theme-strip .lm:hover { transform: scale(1.05); filter: saturate(1.12); }
+
+/* ---- Rose CTA band ---------------------------------------------------- */
+.cta-band--rose { background: linear-gradient(135deg, var(--rose) 0%, var(--rose-deep) 72%); color: #fff; position: relative; overflow: hidden; }
+.cta-band--rose h2 { color: #fff; }
+.cta-band--rose p { color: rgba(255,255,255,0.92); }
+.cta-band--rose::before { content: ""; position: absolute; right: -70px; bottom: -70px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,255,255,0.14), transparent 70%); pointer-events: none; }
+
+/* ---- Scroll reveal + route draw -------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .has-js .section-head, .has-js .fact, .has-js .card, .has-js .area, .has-js .news-card,
+  .has-js .stop, .has-js .map-frame, .has-js .theme-strip, .has-js .cta-band .wrap {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.8s cubic-bezier(0.2,0.75,0.25,1);
+  }
+  .has-js .in { opacity: 1 !important; transform: none !important; }
+  .route-map .route-draw { stroke-dasharray: 100; stroke-dashoffset: 100; }
+  .route-map.in .route-draw { animation: routeDraw 2.6s 0.35s cubic-bezier(0.4,0.1,0.3,1) forwards; }
+  @keyframes routeDraw { to { stroke-dashoffset: 0; } }
+}
+
+/* ---- Responsive tweaks for the upgrade -------------------------------- */
+@media (max-width: 820px) {
+  .route-showcase__grid { grid-template-columns: 1fr; }
+  .hero-content { padding-block: 4.5rem; }
+  .hero::after { background: linear-gradient(180deg, rgba(14,27,19,0.30) 0%, rgba(14,27,19,0.52) 55%, rgba(14,27,19,0.78) 100%); }
+}

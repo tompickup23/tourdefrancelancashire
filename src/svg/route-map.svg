@@ -58,8 +58,8 @@
       C560 435 515 452 470 470
       C425 483 375 497 320 505
       C270 515 215 540 170 560"
-      fill="none" stroke="#7A0A1D" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" opacity="0.25"/>
-  <use href="#routeLine" stroke="url(#route)" stroke-width="6" opacity="1"/>
+      pathLength="100" fill="none" stroke="#7A0A1D" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" opacity="0.25"/>
+  <use href="#routeLine" class="route-draw" stroke="url(#route)" stroke-width="6" opacity="1"/>
 
   <!-- start flag: Keswick -->
   <g transform="translate(150 60)">
