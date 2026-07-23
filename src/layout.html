@@ -8,6 +8,8 @@
   <meta name="description" content="{{page.description}}" />
   <link rel="canonical" href="{{page.canonical}}" />
   <meta name="theme-color" content="{{site.themeColor}}" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta name="author" content="{{site.name}}" />
 
   <!-- Open Graph / social -->
   <meta property="og:type" content="website" />
@@ -16,14 +18,22 @@
   <meta property="og:description" content="{{page.description}}" />
   <meta property="og:url" content="{{page.canonical}}" />
   <meta property="og:locale" content="en_GB" />
+  <meta property="og:image" content="{{site.url}}/img/og-default.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Tour de France Lancashire: Stage 2, 3 July 2027" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{page.fullTitle}}" />
+  <meta name="twitter:description" content="{{page.description}}" />
+  <meta name="twitter:image" content="{{site.url}}/img/og-default.png" />
 
   <link rel="icon" href="/img/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+  <link rel="alternate" type="application/rss+xml" title="{{site.name}} News" href="/feed.xml" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preload" href="/fonts/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/css/fonts.css" />
   <link rel="stylesheet" href="/css/site.css" />
 
   <script type="application/ld+json">
@@ -39,6 +49,30 @@
     "isAccessibleForFree": true
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "{{site.url}}/#website",
+        "url": "{{site.url}}/",
+        "name": "{{site.name}}",
+        "description": "{{site.tagline}}",
+        "inLanguage": "en-GB",
+        "publisher": { "@id": "{{site.url}}/#org" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "{{site.url}}/#org",
+        "name": "{{site.name}}",
+        "url": "{{site.url}}/",
+        "logo": "{{site.url}}/img/og-default.png",
+        "description": "An independent, unofficial visitor guide to the 2027 Tour de France Grand Départ in Lancashire. Not affiliated with A.S.O. or Grand Départ GB."
+      }
+    ]
+  }
+  </script>
 </head>
 <body class="{{page.bodyClass}}">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -48,5 +82,6 @@
   </main>
   {{> footer}}
   <script src="/js/reveal.js" defer></script>
+  <script src="/js/i18n.js" defer></script>
 </body>
 </html>

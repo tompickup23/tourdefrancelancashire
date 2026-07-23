@@ -118,6 +118,21 @@ function buildNews() {
   });
   posts.sort((a, b) => (a.meta.date < b.meta.date ? 1 : -1));
   for (const p of posts) {
+    const canonical = `${config.site.url}${p.url}`;
+    const jsonld = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'NewsArticle',
+      headline: p.meta.title,
+      description: p.meta.standfirst || p.meta.title,
+      datePublished: p.meta.date,
+      dateModified: p.meta.date,
+      inLanguage: 'en-GB',
+      isAccessibleForFree: true,
+      image: `${config.site.url}/img/og-default.png`,
+      mainEntityOfPage: canonical,
+      author: { '@type': 'Organization', name: config.site.name, url: config.site.url + '/' },
+      publisher: { '@type': 'Organization', name: config.site.name, url: config.site.url + '/', logo: { '@type': 'ImageObject', url: `${config.site.url}/img/og-default.png` } }
+    });
     const article = `
       <article class="post">
         <a class="back" href="/news/">&larr; All news</a>
@@ -125,7 +140,8 @@ function buildNews() {
         <h1>${p.meta.title}</h1>
         ${p.meta.standfirst ? `<p class="standfirst">${p.meta.standfirst}</p>` : ''}
         <div class="post-body">${render(p.body, { active: 'news' })}</div>
-      </article>`;
+      </article>
+      <script type="application/ld+json">${jsonld}</script>`;
     buildPage(
       { title: p.meta.title, description: p.meta.standfirst || p.meta.title, active: 'news', bodyClass: 'page-post' },
       article,
@@ -174,11 +190,21 @@ if (existsSync(join(ROOT, 'public'))) cpSync(join(ROOT, 'public'), DIST, { recur
 // Inline SVGs are used via includes; also expose standalone files under /img for OG/social if present.
 
 // Sitemap + robots
-const urls = ['/', ...config.nav.map((n) => n.href), ...posts.map((p) => p.url)];
+const xmlEsc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const urls = ['/', ...config.nav.map((n) => n.href), '/privacy/', '/legal/', ...posts.map((p) => p.url)];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
   urls.map((u) => `  <url><loc>${config.site.url}${u}</loc></url>`).join('\n') + `\n</urlset>\n`;
 emit('sitemap.xml', sitemap);
-emit('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${config.site.url}/sitemap.xml\n`);
+emit('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${config.site.url}/sitemap.xml\n`);
+
+// RSS feed for news
+const rssItems = posts.map((p) => {
+  const link = `${config.site.url}${p.url}`;
+  const pub = new Date(p.meta.date + 'T09:00:00Z').toUTCString();
+  return `    <item>\n      <title>${xmlEsc(p.meta.title)}</title>\n      <link>${link}</link>\n      <guid isPermaLink="true">${link}</guid>\n      <pubDate>${pub}</pubDate>\n      <description>${xmlEsc(p.meta.standfirst || p.meta.title)}</description>\n    </item>`;
+}).join('\n');
+const rss = `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n  <channel>\n    <title>${xmlEsc(config.site.name)}: News</title>\n    <link>${config.site.url}/news/</link>\n    <description>${xmlEsc(config.site.description)}</description>\n    <language>en-gb</language>\n    <atom:link href="${config.site.url}/feed.xml" rel="self" type="application/rss+xml" />\n${rssItems}\n  </channel>\n</rss>\n`;
+emit('feed.xml', rss);
 
 // count output
 let count = 0;

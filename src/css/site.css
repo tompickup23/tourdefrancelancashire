@@ -546,3 +546,14 @@ h1 { font-weight: 600; }
 
 /* ---- Footer ---- */
 .site-footer { background: linear-gradient(180deg, #234C3A, #17362A); }
+
+/* ---- Footer translate + legal ---------------------------------------- */
+.footer-translate { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1rem; padding-block: 1.4rem; border-top: 1px solid rgba(255,255,255,0.12); }
+.ft-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); }
+.ft-langs { display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; }
+.ft-langs a { color: #D4E2D9; text-decoration: none; font-size: 0.92rem; font-weight: 500; }
+.ft-langs a:hover { color: #fff; text-decoration: underline; }
+.ft-note { flex-basis: 100%; color: #8FA79A; font-size: 0.78rem; }
+.footer-legal { display: flex; flex-wrap: wrap; gap: 0.6rem 1.2rem; }
+.footer-legal a { color: #9FB6A9; text-decoration: none; }
+.footer-legal a:hover { color: #fff; text-decoration: underline; }
