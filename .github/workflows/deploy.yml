@@ -26,6 +26,13 @@ jobs:
       - name: Build
         run: node build.mjs
 
+      # Refuses the deploy on an over-long title, a duplicate description, an
+      # unparseable JSON-LD graph, FAQ markup that has drifted from the page,
+      # a sitemap that disagrees with what was built, a missing 404.html, or an
+      # em-dash. All static values, no GitHub-event data interpolated.
+      - name: SEO check
+        run: node seo-check.mjs
+
       - name: Deploy to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

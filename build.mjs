@@ -57,6 +57,7 @@ function render(tpl, ctx) {
   // special tokens
   out = out.replace(/\{\{nav\}\}/g, () => buildNav(ctx.active));
   out = out.replace(/\{\{year\}\}/g, () => String(BUILD_YEAR));
+  out = out.replace(/\{\{faq\}\}/g, () => faqHtml());
   // data tokens: {{site.name}} / {{page.title}}
   out = out.replace(/\{\{([\w.]+)\}\}/g, (m, path) => {
     if (path.startsWith('page.') && ctx.page) {
@@ -92,19 +93,148 @@ function emit(relPath, html) {
   writeFileSync(dest, html);
 }
 
+/* ---- Structured data ---------------------------------------------------- */
+const U = config.site.url;
+const ldScript = (obj) => `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, '\\u003c')}</script>`;
+
+/* The Lancashire stage itself. Emitted only on pages where it is the subject,
+ * so the same event is not repeated on the privacy and legal pages. */
+function stageEvent() {
+  const s = config.stage;
+  return {
+    '@type': 'SportsEvent',
+    '@id': `${U}/#stage2`,
+    name: `Tour de France 2027, Stage ${s.number}: ${s.start} to ${s.finish}`,
+    alternateName: 'Tour de France 2027 in Lancashire',
+    description: `Stage ${s.number} of the 2027 Tour de France runs ${s.distanceKm} km from ${s.start} to ${s.finish} on ${s.dateLong}, with about ${s.lancashireMiles} miles of it through Lancashire and ${s.climbsInLancashire} categorised climbs.`,
+    startDate: s.date,
+    endDate: s.date,
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    isAccessibleForFree: true,
+    sport: 'Road cycling',
+    url: `${U}/route/`,
+    image: [`${U}/img/og-default.png`],
+    superEvent: { '@type': 'SportsEvent', name: 'Tour de France 2027', startDate: '2027-07-02' },
+    organizer: { '@type': 'Organization', name: 'Amaury Sport Organisation', url: 'https://www.letour.fr/' },
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'GBP', availability: 'https://schema.org/InStock', url: `${U}/plan/`, validFrom: '2026-01-15' },
+    location: {
+      '@type': 'Place',
+      name: 'Lancashire, England',
+      address: { '@type': 'PostalAddress', addressRegion: 'Lancashire', addressCountry: 'GB' },
+      containedInPlace: { '@type': 'AdministrativeArea', name: 'England' },
+    },
+  };
+}
+
+function pageGraph(page, meta) {
+  const crumbs = [{ name: 'Home', item: `${U}/` }];
+  if (meta.parent && meta.parentUrl) crumbs.push({ name: meta.parent, item: U + meta.parentUrl });
+  if (page.canonical !== `${U}/`) crumbs.push({ name: meta.breadcrumb || page.title, item: page.canonical });
+
+  const graph = [
+    {
+      '@type': 'WebSite',
+      '@id': `${U}/#website`,
+      url: `${U}/`,
+      name: config.site.name,
+      description: config.site.tagline,
+      inLanguage: 'en-GB',
+      publisher: { '@id': `${U}/#org` },
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${U}/#org`,
+      name: config.site.name,
+      url: `${U}/`,
+      logo: { '@type': 'ImageObject', url: `${U}/img/og-default.png`, width: 1200, height: 630 },
+      description: 'An independent, unofficial visitor guide to the 2027 Tour de France Grand Départ in Lancashire. Not affiliated with A.S.O. or Grand Départ GB.',
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${page.canonical}#breadcrumb`,
+      itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.item })),
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${page.canonical}#webpage`,
+      url: page.canonical,
+      name: page.fullTitle,
+      description: page.description,
+      inLanguage: 'en-GB',
+      isPartOf: { '@id': `${U}/#website` },
+      breadcrumb: { '@id': `${page.canonical}#breadcrumb` },
+      primaryImageOfPage: { '@type': 'ImageObject', url: U + page.ogimage },
+      datePublished: (meta.article && meta.article.date) || config.site.contentPublished,
+      dateModified: page.updated,
+      ...(meta.event === 'true' ? { about: { '@id': `${U}/#stage2` }, mainEntity: { '@id': `${U}/#stage2` } } : {}),
+    },
+  ];
+  if (meta.event === 'true' || meta.article) graph.push(stageEvent());
+  if (meta.faq === 'true') graph.push(faqNode(page));
+  if (meta.article) {
+    const a = meta.article;
+    graph.push({
+      '@type': 'NewsArticle',
+      '@id': `${page.canonical}#article`,
+      headline: a.title,
+      description: a.standfirst || a.title,
+      datePublished: a.date,
+      dateModified: a.updated || a.date,
+      inLanguage: 'en-GB',
+      isAccessibleForFree: true,
+      image: [`${U}/img/og-default.png`],
+      mainEntityOfPage: { '@id': `${page.canonical}#webpage` },
+      about: { '@id': `${U}/#stage2` },
+      author: { '@id': `${U}/#org` },
+      publisher: { '@id': `${U}/#org` },
+    });
+  }
+  return ldScript({ '@context': 'https://schema.org', '@graph': graph });
+}
+
+/* FAQ answers are rendered into the page from the same config entries that
+ * feed the schema, so the visible text and the markup cannot drift apart. */
+function faqNode(page) {
+  return {
+    '@type': 'FAQPage',
+    '@id': `${page.canonical}#faq`,
+    mainEntity: config.faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
+}
+
+const faqHtml = () => config.faq.map((f) => `
+      <div class="faq-item">
+        <h3>${f.q}</h3>
+        <p>${f.a}</p>
+      </div>`).join('\n');
+
 function buildPage(meta, body, outPath) {
   const active = meta.active || '';
+  const canonical = config.site.url + (outPath === 'index.html' ? '/' : '/' + outPath.replace(/index\.html$/, '').replace(/\/$/, '') + '/');
+  const title = meta.title || config.site.name;
   const page = {
-    title: meta.title || config.site.name,
+    title,
     description: meta.description || config.site.description,
-    fullTitle: meta.title ? `${meta.title} · ${config.site.name}` : `${config.site.name} · ${config.site.tagline}`,
+    fullTitle: meta.fullTitle || (meta.title ? `${meta.title} · ${config.site.name}` : `${config.site.name} · ${config.site.tagline}`),
     ogimage: meta.ogimage || '/img/og-default.png',
-    canonical: config.site.url + (outPath === 'index.html' ? '/' : '/' + outPath.replace(/index\.html$/, '').replace(/\/$/, '') + '/'),
+    ogwidth: meta.ogwidth || '1200',
+    ogheight: meta.ogheight || '630',
+    ogalt: meta.ogalt || 'Tour de France Lancashire: Stage 2, Saturday 3 July 2027',
+    robots: meta.robots || 'index, follow, max-image-preview:large, max-snippet:-1',
+    updated: meta.updated || config.site.contentUpdated,
+    canonical,
     bodyClass: meta.bodyClass || '',
   };
+  page.jsonld = meta.robots && meta.robots.includes('noindex') ? '' : pageGraph(page, meta);
   const content = render(body, { active, page });
   const full = render(layout, { active, page }).replace('{{content}}', () => content);
   emit(outPath, full);
+  return page;
 }
 
 /* ---- News collection ---------------------------------------------------- */
@@ -118,32 +248,29 @@ function buildNews() {
   });
   posts.sort((a, b) => (a.meta.date < b.meta.date ? 1 : -1));
   for (const p of posts) {
-    const canonical = `${config.site.url}${p.url}`;
-    const jsonld = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'NewsArticle',
-      headline: p.meta.title,
-      description: p.meta.standfirst || p.meta.title,
-      datePublished: p.meta.date,
-      dateModified: p.meta.date,
-      inLanguage: 'en-GB',
-      isAccessibleForFree: true,
-      image: `${config.site.url}/img/og-default.png`,
-      mainEntityOfPage: canonical,
-      author: { '@type': 'Organization', name: config.site.name, url: config.site.url + '/' },
-      publisher: { '@type': 'Organization', name: config.site.name, url: config.site.url + '/', logo: { '@type': 'ImageObject', url: `${config.site.url}/img/og-default.png` } }
-    });
     const article = `
       <article class="post">
         <a class="back" href="/news/">&larr; All news</a>
-        <p class="post-date">${fmtDate(p.meta.date)}</p>
+        <p class="post-date">Published <time datetime="${p.meta.date}">${fmtDate(p.meta.date)}</time></p>
         <h1>${p.meta.title}</h1>
         ${p.meta.standfirst ? `<p class="standfirst">${p.meta.standfirst}</p>` : ''}
         <div class="post-body">${render(p.body, { active: 'news' })}</div>
-      </article>
-      <script type="application/ld+json">${jsonld}</script>`;
+      </article>`;
     buildPage(
-      { title: p.meta.title, description: p.meta.standfirst || p.meta.title, active: 'news', bodyClass: 'page-post' },
+      {
+        title: p.meta.title,
+        // The headline already carries the subject, so no site suffix: it would
+        // push every news title past the width Google shows.
+        fullTitle: p.meta.fullTitle || p.meta.title,
+        description: p.meta.description || p.meta.standfirst || p.meta.title,
+        breadcrumb: p.meta.title,
+        parent: 'News',
+        parentUrl: '/news/',
+        active: 'news',
+        bodyClass: 'page-post',
+        updated: p.meta.updated || p.meta.date,
+        article: p.meta,
+      },
       article,
       `news/${p.slug}/index.html`
     );
@@ -172,12 +299,16 @@ const newsCards = posts.map((p) => `
   </a>`).join('\n');
 
 // Pages
+const pageRecords = [];
 for (const f of readdirSync(join(SRC, 'pages')).filter((f) => f.endsWith('.html'))) {
   const { meta, body } = parseMeta(read(join(SRC, 'pages', f)));
   const name = basename(f, '.html');
-  const outPath = name === 'index' ? 'index.html' : `${name}/index.html`;
+  // 404.html sits at the root so Cloudflare Pages serves it with a real 404
+  // status instead of falling back to the homepage.
+  const outPath = name === 'index' ? 'index.html' : name === '404' ? '404.html' : `${name}/index.html`;
   const withPosts = body.replace('{{news_cards}}', () => newsCards || '<p>News will appear here soon.</p>');
-  buildPage(meta, withPosts, outPath);
+  const page = buildPage(meta, withPosts, outPath);
+  if (name !== '404') pageRecords.push({ url: page.canonical.replace(config.site.url, ''), lastmod: page.updated });
 }
 
 // Static assets
@@ -191,9 +322,18 @@ if (existsSync(join(ROOT, 'public'))) cpSync(join(ROOT, 'public'), DIST, { recur
 
 // Sitemap + robots
 const xmlEsc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const urls = ['/', ...config.nav.map((n) => n.href), '/privacy/', '/legal/', ...posts.map((p) => p.url)];
+// Built from what was actually emitted, so a page can never be listed without
+// existing (or exist without being listed).
+const order = ['/', ...config.nav.map((n) => n.href), '/privacy/', '/legal/'];
+const rank = (u) => { const i = order.indexOf(u); return i === -1 ? order.length : i; };
+const urls = [
+  ...pageRecords.sort((a, b) => rank(a.url) - rank(b.url)),
+  ...posts.map((p) => ({ url: p.url, lastmod: p.meta.updated || p.meta.date })),
+];
+const missing = order.filter((u) => !urls.some((r) => r.url === u));
+if (missing.length) throw new Error('nav points at pages that were not built: ' + missing.join(', '));
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-  urls.map((u) => `  <url><loc>${config.site.url}${u}</loc></url>`).join('\n') + `\n</urlset>\n`;
+  urls.map((u) => `  <url><loc>${config.site.url}${u.url}</loc><lastmod>${u.lastmod}</lastmod></url>`).join('\n') + `\n</urlset>\n`;
 emit('sitemap.xml', sitemap);
 emit('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${config.site.url}/sitemap.xml\n`);
 

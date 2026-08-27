@@ -1,0 +1,198 @@
+#!/usr/bin/env node
+/*
+ * Post-build SEO gate. Reads dist/ and refuses anything that would quietly
+ * damage search: over-long or duplicated titles, missing canonicals, JSON-LD
+ * that will not parse, an FAQ whose visible text has drifted from its markup,
+ * a sitemap listing a page that was never built, or a house-style em-dash.
+ *
+ *   node seo-check.mjs
+ *
+ * Every check here can fail on real input. Prove it before trusting a pass:
+ * see PROVING THE GATES at the foot of this file.
+ */
+import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = dirname(fileURLToPath(import.meta.url));
+const DIST = join(ROOT, 'dist');
+const config = JSON.parse(readFileSync(join(ROOT, 'site.config.json'), 'utf8'));
+const U = config.site.url;
+
+const TITLE_MAX = 60;   // beyond this Google truncates in the result
+const DESC_MAX = 160;
+const DESC_MIN = 70;
+
+const fails = [];
+const fail = (where, msg) => fails.push(`${where}: ${msg}`);
+
+const html = [];
+(function walk(d) {
+  for (const e of readdirSync(d)) {
+    const p = join(d, e);
+    if (statSync(p).isDirectory()) walk(p);
+    else if (e.endsWith('.html')) html.push(p.slice(DIST.length + 1));
+  }
+})(DIST);
+
+const text = (rel) => readFileSync(join(DIST, rel), 'utf8');
+const one = (s, re) => { const m = s.match(re); return m ? m[1] : null; };
+const decode = (s) => s.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+  .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&ldquo;|&rdquo;/g, '"').replace(/&nbsp;/g, ' ');
+
+/* ---- 1. Head tags, per page -------------------------------------------- */
+const titles = new Map();
+const descs = new Map();
+for (const rel of html) {
+  const s = text(rel);
+  const title = one(s, /<title>([\s\S]*?)<\/title>/);
+  const desc = one(s, /<meta name="description" content="([^"]*)"/);
+  const canon = one(s, /<link rel="canonical" href="([^"]*)"/);
+  const robots = one(s, /<meta name="robots" content="([^"]*)"/) || '';
+  const h1s = (s.match(/<h1[\s>]/g) || []).length;
+
+  if (!title) fail(rel, 'no <title>');
+  else if (title.length > TITLE_MAX) fail(rel, `title ${title.length} chars, over ${TITLE_MAX}`);
+  if (!desc) fail(rel, 'no meta description');
+  else if (desc.length > DESC_MAX) fail(rel, `description ${desc.length} chars, over ${DESC_MAX}`);
+  else if (desc.length < DESC_MIN) fail(rel, `description ${desc.length} chars, under ${DESC_MIN}`);
+  if (!canon) fail(rel, 'no canonical');
+  else if (!canon.startsWith(U)) fail(rel, `canonical points off site: ${canon}`);
+  if (h1s !== 1) fail(rel, `${h1s} h1 tags, expected exactly 1`);
+
+  // Duplicate titles and descriptions are only a defect on indexable pages.
+  if (!robots.includes('noindex')) {
+    if (title) titles.set(title, [...(titles.get(title) || []), rel]);
+    if (desc) descs.set(desc, [...(descs.get(desc) || []), rel]);
+  }
+}
+for (const [t, where] of titles) if (where.length > 1) fail(where.join(' + '), `duplicate title "${t}"`);
+for (const [d, where] of descs) if (where.length > 1) fail(where.join(' + '), `duplicate description "${d.slice(0, 40)}..."`);
+
+/* ---- 2. JSON-LD parses, and says what it should ------------------------- */
+let sawEvent = false, sawFaq = false, sawBreadcrumb = false;
+for (const rel of html) {
+  const s = text(rel);
+  const robots = one(s, /<meta name="robots" content="([^"]*)"/) || '';
+  const blocks = [...s.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+  if (!blocks.length) {
+    if (!robots.includes('noindex')) fail(rel, 'no JSON-LD');
+    continue;
+  }
+  for (const b of blocks) {
+    let parsed;
+    try { parsed = JSON.parse(b[1]); } catch (e) { fail(rel, `JSON-LD does not parse: ${e.message}`); continue; }
+    const nodes = parsed['@graph'] || [parsed];
+    const types = nodes.map((n) => n['@type']);
+    if (types.includes('SportsEvent')) sawEvent = true;
+    if (types.includes('FAQPage')) sawFaq = true;
+    if (types.includes('BreadcrumbList')) sawBreadcrumb = true;
+    else fail(rel, 'JSON-LD has no BreadcrumbList');
+    // An @id referenced but never defined anywhere in the graph is a dangling
+    // node: valid JSON-LD, but Google reads it as an empty entity.
+    const defined = new Set(nodes.map((n) => n['@id']).filter(Boolean));
+    const refs = JSON.stringify(nodes).match(/"@id":"[^"]+"/g) || [];
+    for (const r of refs) {
+      const id = r.slice(7, -1);
+      if (!defined.has(id)) fail(rel, `JSON-LD references undefined @id ${id}`);
+    }
+  }
+}
+if (!sawEvent) fail('site', 'no SportsEvent anywhere');
+if (!sawFaq) fail('site', 'no FAQPage anywhere');
+if (!sawBreadcrumb) fail('site', 'no BreadcrumbList anywhere');
+
+/* ---- 3. FAQ: markup, visible answers and config all agree ---------------
+ * Google demotes an FAQ whose markup says something the reader cannot see.
+ * Comparing the markup only against the visible text would prove nothing here,
+ * because one build writes both from the same array: that check can never
+ * fail. The third leg, site.config.json, is what gives it teeth. It catches a
+ * stale dist, and it catches anyone hardcoding FAQ copy into the page. */
+{
+  const rel = 'plan/index.html';
+  const s = text(rel);
+  const source = config.faq.map((f) => [f.q, f.a]);
+  const block = [...s.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+    .map((m) => JSON.parse(m[1]))
+    .flatMap((p) => p['@graph'] || [p])
+    .find((n) => n['@type'] === 'FAQPage');
+  const visible = [...s.matchAll(/<div class="faq-item">\s*<h3>([\s\S]*?)<\/h3>\s*<p>([\s\S]*?)<\/p>/g)]
+    .map((m) => [decode(m[1].trim()), decode(m[2].trim())]);
+
+  if (!block) fail(rel, 'FAQPage markup missing');
+  else if (block.mainEntity.length !== source.length) {
+    fail(rel, `${block.mainEntity.length} questions in the markup, ${source.length} in site.config.json`);
+  }
+  if (visible.length !== source.length) {
+    fail(rel, `${visible.length} FAQ items on the page, ${source.length} in site.config.json`);
+  } else {
+    source.forEach(([q, a], i) => {
+      if (visible[i][0] !== q) fail(rel, `FAQ question ${i + 1} on the page is not the one in site.config.json`);
+      if (visible[i][1] !== a) fail(rel, `FAQ answer ${i + 1} on the page is not the one in site.config.json`);
+      if (block && block.mainEntity[i]) {
+        if (block.mainEntity[i].name !== q) fail(rel, `FAQ question ${i + 1} markup does not match site.config.json`);
+        if (block.mainEntity[i].acceptedAnswer.text !== a) fail(rel, `FAQ answer ${i + 1} markup does not match site.config.json`);
+      }
+    });
+  }
+}
+
+/* ---- 4. Sitemap agrees with what was built ------------------------------ */
+{
+  const sm = text('sitemap.xml');
+  const locs = [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  if (!locs.length) fail('sitemap.xml', 'no URLs');
+  for (const loc of locs) {
+    const path = loc.slice(U.length);
+    const file = path === '/' ? 'index.html' : path.replace(/^\//, '').replace(/\/$/, '') + '/index.html';
+    if (!existsSync(join(DIST, file))) fail('sitemap.xml', `lists ${loc} but ${file} was not built`);
+    const s = text(file);
+    const canon = one(s, /<link rel="canonical" href="([^"]*)"/);
+    if (canon !== loc) fail('sitemap.xml', `${loc} canonicalises to ${canon}`);
+    if ((one(s, /<meta name="robots" content="([^"]*)"/) || '').includes('noindex')) {
+      fail('sitemap.xml', `${loc} is noindex but listed`);
+    }
+  }
+  for (const m of sm.matchAll(/<url>(?:(?!<\/url>)[\s\S])*<\/url>/g)) {
+    if (!/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/.test(m[0])) fail('sitemap.xml', 'entry with no valid lastmod');
+  }
+  // Every built, indexable page must be in the sitemap, not just the reverse.
+  for (const rel of html) {
+    const s = text(rel);
+    if ((one(s, /<meta name="robots" content="([^"]*)"/) || '').includes('noindex')) continue;
+    const canon = one(s, /<link rel="canonical" href="([^"]*)"/);
+    if (canon && !locs.includes(canon)) fail('sitemap.xml', `${canon} was built but is not listed`);
+  }
+}
+
+/* ---- 5. A real 404 page exists ------------------------------------------ */
+if (!existsSync(join(DIST, '404.html'))) {
+  fail('dist', 'no 404.html, so Cloudflare Pages will serve the homepage with HTTP 200');
+}
+
+/* ---- 6. House style ------------------------------------------------------ */
+for (const rel of html) {
+  const s = text(rel);
+  if (s.includes('—')) fail(rel, 'contains an em-dash');
+  if (/&mdash;|&ndash;|&#8212;|&#8211;|&#x2014;|&#x2013;/i.test(s)) fail(rel, 'contains an entity-encoded dash');
+}
+
+/* ---- Report -------------------------------------------------------------- */
+if (fails.length) {
+  console.error(`SEO check FAILED, ${fails.length} problem(s):`);
+  for (const f of fails) console.error('  ' + f);
+  process.exit(1);
+}
+console.log(`SEO check passed: ${html.length} pages, titles <= ${TITLE_MAX}, descriptions ${DESC_MIN} to ${DESC_MAX}, JSON-LD parsed, FAQ markup matches the page, sitemap reconciles both ways, 404.html present.`);
+
+/* PROVING THE GATES
+ * A check that cannot fail is decoration. Each of these makes exactly one
+ * check fail, and nothing else should be needed to see it:
+ *   1. lengthen any fullTitle in src/pages/*.html past 60 characters
+ *   2. break a brace inside pageGraph() in build.mjs
+ *   3. edit one answer in site.config.json faq[] after the page is built
+ *   4. delete src/pages/stay.html, leaving /stay/ in nav
+ *   5. delete src/pages/404.html
+ *   6. put an em-dash in any page description
+ */
