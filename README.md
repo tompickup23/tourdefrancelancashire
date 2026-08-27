@@ -54,30 +54,37 @@ GATES at the foot of that file, and add a proof for anything new.
 Both are five-minute jobs and neither can be done from this repo. Until they are
 done the site still works; it just deploys by hand and measures nothing.
 
-### 1. Turn the visitor counter on
+### 1. Visitor counting: already on, and do not test it with curl
 
-Nothing is measured at the moment. The site runs no analytics, makes no
-third-party request on load, and `/privacy/` says exactly that.
+`analytics.mode` in `site.config.json` is `auto`. Cloudflare Web Analytics is
+enabled for this zone in the dashboard and Cloudflare injects the beacon at the
+edge, so this repo emits no analytics script and the pages still carry one for
+real visitors. Site tag `9ff61042c3ec47f386ddaaccf4b33bb5`, confirmed in a
+browser on 27 August 2026.
 
-One setting controls all of it. In the Cloudflare dashboard go to **Analytics &
-Logs > Web Analytics**, add or open `tourdefrancelancashire.co.uk`, choose
-**Manage site > JS snippet**, and copy the 32-character hex `token` out of it.
-Paste it into `site.config.json`:
+**Curl cannot verify this and will lie to you.** Cloudflare skips beacon
+injection for requests it classifies as bots, so `curl` shows no beacon whether
+or not one is being served. That trap produced three wrong "the beacon is dead"
+findings on 23 August, a dozen more on 27 August, and briefly a live privacy
+page telling readers nothing was measured while it was. To check:
 
-```json
-"analytics": { "provider": "cloudflare", "beaconToken": "<the 32 hex characters>" }
-```
+- load a page in a real browser and look for a script whose `src` contains
+  `cloudflareinsights`, or
+- read the site's page views in the Cloudflare dashboard under
+  **Analytics & Logs > Web Analytics**.
 
-Rebuild and deploy. Three things happen from that one value: the beacon is
-emitted on every page, the privacy notice switches to the wording that describes
-cookieless analytics, and the gate starts enforcing that no page is missing the
-beacon and that the notice matches. Clear the token and all three reverse.
+The mode also decides what `/privacy/` says, so the notice cannot drift from
+what the site does:
 
-The wording for both states is in `analytics.copy.on` and `analytics.copy.off`
-in the same file, so what the site does and what it tells readers cannot drift
-apart. **The token is public**: it ships in the HTML of every page, which is why
-it lives in the config and not in a secret. Do not reuse another site's token,
-this property is kept separate from the rest of the estate on purpose.
+| `analytics.mode` | Beacon | Privacy page |
+|---|---|---|
+| `off` | none | "no visitor counting is running at present" |
+| `auto` | injected by Cloudflare at the edge | "we use Cloudflare Web Analytics, which is cookieless" |
+| `snippet` | emitted by this repo from `beaconToken` | same as `auto` |
+
+Use `snippet` only if automatic injection is ever turned off, and never both at
+once: two beacons on a page double-count. The gate enforces that this repo emits
+a beacon in `snippet` mode and in no other.
 
 ### 2. Let CI deploy
 
