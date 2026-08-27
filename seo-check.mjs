@@ -25,7 +25,11 @@ const DESC_MAX = 160;
 const DESC_MIN = 70;
 
 const fails = [];
+const warns = [];
 const fail = (where, msg) => fails.push(`${where}: ${msg}`);
+// A warning is for something only a human with dashboard access can fix. It is
+// printed on every run and surfaced in the CI summary, but does not block.
+const warn = (where, msg) => warns.push(`${where}: ${msg}`);
 
 const html = [];
 (function walk(d) {
@@ -245,7 +249,36 @@ for (const rel of html) {
   if (/&mdash;|&ndash;|&#8212;|&#8211;|&#x2014;|&#x2013;/i.test(s)) fail(rel, 'contains an entity-encoded dash');
 }
 
+/* ---- 7. The site does what its privacy page says it does ----------------
+ * /privacy/ tells readers "we use Cloudflare Web Analytics" and "this is the
+ * one request a page makes to another address on load". If no beacon ships,
+ * that page describes behaviour the site does not have. With a token set the
+ * mismatch is a build bug and fails; without one it is a job for Tom in the
+ * Cloudflare dashboard, so it warns rather than blocking every deploy. */
+{
+  const token = ((config.analytics && config.analytics.beaconToken) || '').trim();
+  const claimsAnalytics = /Cloudflare Web Analytics/i.test(text('privacy/index.html'));
+  const withBeacon = html.filter((rel) => text(rel).includes('static.cloudflareinsights.com'));
+
+  if (token) {
+    if (!/^[0-9a-f]{32}$/.test(token)) fail('site.config.json', `analytics.beaconToken is not 32 hex characters: ${token}`);
+    const missing = html.filter((rel) => !withBeacon.includes(rel));
+    if (missing.length) fail('dist', `beacon token is set but ${missing.length} page(s) do not carry it, first: ${missing[0]}`);
+    if (!claimsAnalytics) fail('privacy/index.html', 'a beacon ships but the privacy page does not disclose it');
+  } else if (claimsAnalytics && !withBeacon.length) {
+    warn('privacy/index.html',
+      'says the site uses Cloudflare Web Analytics, but no page carries the beacon. '
+      + 'Paste the public site tag into analytics.beaconToken in site.config.json '
+      + '(Cloudflare dashboard: Analytics & Logs > Web Analytics > Manage site > JS snippet) and rebuild.');
+  }
+}
+
 /* ---- Report -------------------------------------------------------------- */
+if (warns.length) {
+  console.error(`\nSEO check WARNINGS, ${warns.length}:`);
+  for (const w of warns) console.error('  ! ' + w);
+  console.error('');
+}
 if (fails.length) {
   console.error(`SEO check FAILED, ${fails.length} problem(s):`);
   for (const f of fails) console.error('  ' + f);
