@@ -176,8 +176,24 @@
     }
   ],
   "analytics": {
-    "_note": "Cloudflare Web Analytics. beaconToken is the PUBLIC site tag from the Cloudflare dashboard (Analytics & Logs > Web Analytics > this site > Manage site > JS snippet), a 32-character hex string. It is not a secret: it ships in the HTML of every page. Leave it empty and no script is emitted at all. The privacy page already describes this beacon, so with it empty that page is describing something the site does not do.",
+    "_note": "Cloudflare Web Analytics. beaconToken is the PUBLIC site tag from the Cloudflare dashboard (Analytics & Logs > Web Analytics > this site > Manage site > JS snippet), 32 hex characters. It is not a secret: it ships in the HTML of every page. Empty means no script is emitted and the site makes no third-party requests at all. The copy below is what /privacy/ says in each state, so the notice and the script are driven by this one setting and cannot contradict each other. Change the token and the privacy page changes with it.",
     "provider": "cloudflare",
-    "beaconToken": ""
+    "beaconToken": "",
+    "copy": {
+      "off": {
+        "description": "This site sets no cookies, runs no advertising and does no tracking. It makes no third party requests at all and collects no personal data.",
+        "summary": "No visitor counting is running at present, so loading a page sends nothing to anyone but this site.",
+        "cookies": "No visitor counting is running at present, so nothing is stored on your device and nothing is sent elsewhere.",
+        "processing": "<strong>Visitor counting:</strong> none. No analytics script runs on this site, so no page view is recorded anywhere. If that changes, this page changes with it: the notice you are reading and the script itself are generated from the same setting.",
+        "thirdparty": "<strong>Everything is served from this domain:</strong> fonts, artwork, the route map and all images. Loading a page makes no request to any other address, and sends your details to no advertiser and no social network."
+      },
+      "on": {
+        "description": "This site sets no cookies, runs no advertising and does no cross site tracking. Visits are counted in aggregate only, with no personal data collected.",
+        "summary": "We count visits in aggregate so we know which pages are useful.",
+        "cookies": "Our visitor counting stores nothing on your device and does not use a cookie, a device fingerprint or any identifier that follows you between sites.",
+        "processing": "<strong>Visitor counting:</strong> we use Cloudflare Web Analytics, which is cookieless. It records a page view with the page address, the referring site, the country, and the browser and device type, then reports those to us only as totals. It sets nothing on your device, builds no profile of you and shares nothing with advertisers. This is the one request a page makes to another address on load.",
+        "thirdparty": "<strong>Everything else is served from this domain:</strong> fonts, artwork, the route map and all images. Loading a page sends your details to no advertiser and no social network."
+      }
+    }
   }
 }
