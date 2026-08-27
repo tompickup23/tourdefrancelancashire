@@ -256,29 +256,33 @@ for (const rel of html) {
  * mismatch is a build bug and fails; without one it is a job for Tom in the
  * Cloudflare dashboard, so it warns rather than blocking every deploy. */
 {
+  const mode = ((config.analytics && config.analytics.mode) || 'off').trim();
   const token = ((config.analytics && config.analytics.beaconToken) || '').trim();
-  const on = !!token;
+  const on = mode !== 'off';
   const active = config.analytics.copy[on ? 'on' : 'off'];
   const inactive = config.analytics.copy[on ? 'off' : 'on'];
   const privacy = text('privacy/index.html');
   const withBeacon = html.filter((rel) => text(rel).includes('static.cloudflareinsights.com'));
 
-  if (on && !/^[0-9a-f]{32}$/.test(token)) {
-    fail('site.config.json', `analytics.beaconToken is not 32 hex characters: ${token}`);
+  if (!['off', 'auto', 'snippet'].includes(mode)) {
+    fail('site.config.json', `analytics.mode must be off, auto or snippet, got "${mode}"`);
   }
 
-  // The beacon must be on every page or none of them, matching the setting.
-  if (on) {
+  // What this repo emits must match the mode. In 'auto' the beacon reaches the
+  // reader from the Cloudflare edge, so our own HTML must stay clean or the
+  // page would carry two of them and double-count.
+  if (mode === 'snippet') {
+    if (!/^[0-9a-f]{32}$/.test(token)) fail('site.config.json', `mode is "snippet" but beaconToken is not 32 hex characters: ${token}`);
     const missing = html.filter((rel) => !withBeacon.includes(rel));
-    if (missing.length) fail('dist', `beacon token is set but ${missing.length} page(s) do not carry it, first: ${missing[0]}`);
+    if (missing.length) fail('dist', `mode is "snippet" but ${missing.length} page(s) do not carry the beacon, first: ${missing[0]}`);
   } else if (withBeacon.length) {
-    fail('dist', `no beacon token is set but ${withBeacon.length} page(s) load one, first: ${withBeacon[0]}`);
+    fail('dist', `mode is "${mode}" so this repo should emit no beacon, but ${withBeacon.length} page(s) carry one, first: ${withBeacon[0]}`);
   }
 
   // The privacy page must carry the copy for the state the site is actually in,
-  // and none of the copy for the state it is not in. Checking the built page
-  // against site.config.json, not against the other half of the same build,
-  // is what makes this catch a stale dist or a hand-edited page.
+  // and none of the copy for the state it is not in. Checked against
+  // site.config.json rather than against the other half of the same build, so a
+  // stale dist and a hand-edited page both fail.
   for (const [key, wanted] of Object.entries(active)) {
     if (!privacy.includes(wanted)) {
       fail('privacy/index.html', `analytics is ${on ? 'ON' : 'OFF'} but the page is missing the "${key}" copy for that state`);
@@ -290,12 +294,15 @@ for (const rel of html) {
     }
   }
 
-  if (!on) {
-    warn('site.config.json',
-      'no analytics.beaconToken, so nothing is measured. The privacy page correctly says so. '
-      + 'To turn counting on, paste the public 32-hex site tag from the Cloudflare dashboard '
-      + '(Analytics & Logs > Web Analytics > Manage site > JS snippet) and rebuild: the beacon '
-      + 'and the privacy wording both follow that one setting.');
+  if (mode === 'auto') {
+    warn('analytics',
+      'mode is "auto", so the beacon is injected by Cloudflare at the edge and is NOT in this repo. '
+      + 'Nothing here can confirm it is actually reaching readers, and curl cannot either: Cloudflare '
+      + 'skips injection for requests it treats as bots, so curl shows no beacon whether or not one is '
+      + 'served. Verify in a real browser (look for a script whose src contains cloudflareinsights) or '
+      + 'read the page views in the Cloudflare dashboard. Last confirmed working 27 Aug 2026.');
+  } else if (mode === 'off') {
+    warn('analytics', 'mode is "off", so nothing is measured. The privacy page correctly says so.');
   }
 }
 

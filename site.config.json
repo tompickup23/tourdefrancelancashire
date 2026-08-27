@@ -176,9 +176,12 @@
     }
   ],
   "analytics": {
-    "_note": "Cloudflare Web Analytics. beaconToken is the PUBLIC site tag from the Cloudflare dashboard (Analytics & Logs > Web Analytics > this site > Manage site > JS snippet), 32 hex characters. It is not a secret: it ships in the HTML of every page. Empty means no script is emitted and the site makes no third-party requests at all. The copy below is what /privacy/ says in each state, so the notice and the script are driven by this one setting and cannot contradict each other. Change the token and the privacy page changes with it.",
+    "_note": "Cloudflare Web Analytics, cookieless. mode is the single switch. 'auto': Cloudflare injects the beacon at the edge for this proxied zone, so this repo emits no script; 'snippet': we emit the tag ourselves from beaconToken; 'off': no analytics at all. The copy below is what /privacy/ says in each state, so what the site does and what it tells readers cannot drift apart.",
+    "_verifyNote": "CURL CANNOT VERIFY THIS. Cloudflare does not inject the beacon for requests it classifies as bots, so curl always shows no beacon regardless of the truth. Three probes on 23 Aug 2026 and a dozen more on 27 Aug all used curl and all wrongly concluded analytics was dead. Check in a real browser: load a page and look for a script whose src contains cloudflareinsights, or read the site's page views in the Cloudflare dashboard.",
+    "mode": "auto",
     "provider": "cloudflare",
-    "beaconToken": "",
+    "beaconToken": "9ff61042c3ec47f386ddaaccf4b33bb5",
+    "_tokenNote": "Public site tag for tourdefrancelancashire.co.uk, read from the live page 27 Aug 2026. It ships in the HTML of every page, so it is not a secret. Used only when mode is 'snippet'; in 'auto' mode it records what Cloudflare injects. It is this property's own tag, not shared with any other site on the estate.",
     "copy": {
       "off": {
         "description": "This site sets no cookies, runs no advertising and does no tracking. It makes no third party requests at all and collects no personal data.",

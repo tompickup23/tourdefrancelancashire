@@ -95,24 +95,36 @@ function emit(relPath, html) {
 }
 
 /* ---- Analytics ----------------------------------------------------------
- * Cloudflare Web Analytics, cookieless. The beacon token is a public site tag,
- * not a secret: it ships in the HTML of every page, which is why it lives in
- * site.config.json rather than an environment variable. With it empty nothing
- * is emitted, so the site keeps making zero third-party requests. The CSP in
- * public/_headers already allows static.cloudflareinsights.com in script-src
- * and cloudflareinsights.com in connect-src, so no header change is needed. */
-const BEACON = ((config.analytics && config.analytics.beaconToken) || '').trim();
-if (BEACON && !/^[0-9a-f]{32}$/.test(BEACON)) {
-  throw new Error(`analytics.beaconToken must be 32 hex characters, got ${JSON.stringify(BEACON)}`);
+ * Cloudflare Web Analytics, cookieless. One switch, analytics.mode:
+ *   'auto'    Cloudflare injects the beacon at the edge for this proxied zone,
+ *             so we emit nothing and the pages still carry it for real visitors
+ *   'snippet' we emit the tag ourselves from the public beaconToken
+ *   'off'     no analytics anywhere
+ * The privacy wording follows the same switch, so the page cannot describe
+ * analytics the site does not run, or stay silent about analytics it does.
+ *
+ * DO NOT VERIFY THIS WITH CURL. Cloudflare skips beacon injection for requests
+ * it classifies as bots, so curl shows no beacon whether or not one is being
+ * served. That mistake was made repeatedly on 23 and 27 August 2026 and led to
+ * a privacy page that wrongly told readers nothing was being measured. Check in
+ * a real browser, or read the page views in the Cloudflare dashboard.
+ */
+const MODE = ((config.analytics && config.analytics.mode) || 'off').trim();
+if (!['off', 'auto', 'snippet'].includes(MODE)) {
+  throw new Error(`analytics.mode must be off, auto or snippet, got ${JSON.stringify(MODE)}`);
 }
-const analyticsTag = BEACON
+const BEACON = ((config.analytics && config.analytics.beaconToken) || '').trim();
+if (MODE === 'snippet' && !/^[0-9a-f]{32}$/.test(BEACON)) {
+  throw new Error(`analytics.mode is "snippet" but beaconToken is not 32 hex characters: ${JSON.stringify(BEACON)}`);
+}
+const analyticsTag = MODE === 'snippet'
   ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"${BEACON}"}'></script>`
   : '';
 
-/* What /privacy/ says about visitor counting, chosen by the same setting that
- * decides whether the beacon ships. The page cannot describe analytics the
- * site does not run, or stay silent about analytics it does. */
-const ANALYTICS_COPY = config.analytics.copy[BEACON ? 'on' : 'off'];
+/* What /privacy/ says about visitor counting. Anything that is not 'off' means
+ * a beacon reaches the reader, however it got there. */
+const ANALYTICS_ON = MODE !== 'off';
+const ANALYTICS_COPY = config.analytics.copy[ANALYTICS_ON ? 'on' : 'off'];
 const analyticsToken = (key) => ANALYTICS_COPY[key] || '';
 
 /* ---- Structured data ---------------------------------------------------- */
