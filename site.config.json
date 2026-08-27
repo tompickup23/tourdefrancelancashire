@@ -6,7 +6,9 @@
     "domain": "tourdefrancelancashire.co.uk",
     "url": "https://tourdefrancelancashire.co.uk",
     "description": "Your independent guide to the 2027 Tour de France in Lancashire. Stage 2 races through the county on Saturday 3 July 2027. Route, places to stay, things to see and the latest news.",
-    "themeColor": "#C8102E"
+    "themeColor": "#C8102E",
+    "contentPublished": "2026-01-20",
+    "contentUpdated": "2026-08-27"
   },
   "stage": {
     "number": 2,
@@ -22,31 +24,155 @@
     "economicImpact": "£15 million+"
   },
   "nav": [
-    { "label": "The Route", "href": "/route/", "id": "route" },
-    { "label": "Places to Stay", "href": "/stay/", "id": "stay" },
-    { "label": "See & Do", "href": "/see/", "id": "see" },
-    { "label": "Plan Your Day", "href": "/plan/", "id": "plan" },
-    { "label": "News", "href": "/news/", "id": "news" },
-    { "label": "About", "href": "/about/", "id": "about" }
+    {
+      "label": "The Route",
+      "href": "/route/",
+      "id": "route"
+    },
+    {
+      "label": "Places to Stay",
+      "href": "/stay/",
+      "id": "stay"
+    },
+    {
+      "label": "See & Do",
+      "href": "/see/",
+      "id": "see"
+    },
+    {
+      "label": "Plan Your Day",
+      "href": "/plan/",
+      "id": "plan"
+    },
+    {
+      "label": "News",
+      "href": "/news/",
+      "id": "news"
+    },
+    {
+      "label": "About",
+      "href": "/about/",
+      "id": "about"
+    }
   ],
   "routeStops": [
-    { "name": "Keswick", "county": "Cumbria", "note": "Stage 2 rolls out from the Lake District town of Keswick.", "type": "start" },
-    { "name": "Morecambe Bay", "county": "Lancashire", "note": "The race sweeps onto the Morecambe Bay coastline as it enters Lancashire.", "type": "town" },
-    { "name": "Carnforth", "county": "Lancashire", "note": "Historic railway town on the northern edge of the county.", "type": "town" },
-    { "name": "Morecambe", "county": "Lancashire", "note": "Seaside resort with Art Deco heritage and sweeping bay views.", "type": "town" },
-    { "name": "Lancaster", "county": "Lancashire", "note": "The county's historic city, gateway to the Lancashire fells.", "type": "town" },
-    { "name": "Côte de Jubilee Tower", "county": "Lancashire", "note": "The first big categorised climb, on the moors above Lancaster.", "type": "climb" },
-    { "name": "Forest of Bowland", "county": "Lancashire", "note": "A designated National Landscape of wild fells and quiet valleys.", "type": "town" },
-    { "name": "Clitheroe", "county": "Lancashire", "note": "Ribble Valley market town beneath its Norman castle keep.", "type": "town" },
-    { "name": "Whalley & Langho", "county": "Lancashire", "note": "Ribble Valley villages known for the abbey and the viaduct.", "type": "town" },
-    { "name": "Blackburn", "county": "Lancashire", "note": "Major East Lancashire town with its landmark cathedral.", "type": "town" },
-    { "name": "Chorley", "county": "Lancashire", "note": "Central Lancashire town at the heart of the stage's second half.", "type": "town" },
-    { "name": "West Lancashire", "county": "Lancashire", "note": "The plain of West Lancashire carries the race towards Merseyside.", "type": "town" },
-    { "name": "The Strand, Liverpool", "county": "Merseyside", "note": "A sprint finish along the waterfront beneath the Three Graces.", "type": "finish" }
+    {
+      "name": "Keswick",
+      "county": "Cumbria",
+      "note": "Stage 2 rolls out from the Lake District town of Keswick.",
+      "type": "start"
+    },
+    {
+      "name": "Morecambe Bay",
+      "county": "Lancashire",
+      "note": "The race sweeps onto the Morecambe Bay coastline as it enters Lancashire.",
+      "type": "town"
+    },
+    {
+      "name": "Carnforth",
+      "county": "Lancashire",
+      "note": "Historic railway town on the northern edge of the county.",
+      "type": "town"
+    },
+    {
+      "name": "Morecambe",
+      "county": "Lancashire",
+      "note": "Seaside resort with Art Deco heritage and sweeping bay views.",
+      "type": "town"
+    },
+    {
+      "name": "Lancaster",
+      "county": "Lancashire",
+      "note": "The county's historic city, gateway to the Lancashire fells.",
+      "type": "town"
+    },
+    {
+      "name": "Côte de Jubilee Tower",
+      "county": "Lancashire",
+      "note": "The first big categorised climb, on the moors above Lancaster.",
+      "type": "climb"
+    },
+    {
+      "name": "Forest of Bowland",
+      "county": "Lancashire",
+      "note": "A designated National Landscape of wild fells and quiet valleys.",
+      "type": "town"
+    },
+    {
+      "name": "Clitheroe",
+      "county": "Lancashire",
+      "note": "Ribble Valley market town beneath its Norman castle keep.",
+      "type": "town"
+    },
+    {
+      "name": "Whalley & Langho",
+      "county": "Lancashire",
+      "note": "Ribble Valley villages known for the abbey and the viaduct.",
+      "type": "town"
+    },
+    {
+      "name": "Blackburn",
+      "county": "Lancashire",
+      "note": "Major East Lancashire town with its landmark cathedral.",
+      "type": "town"
+    },
+    {
+      "name": "Chorley",
+      "county": "Lancashire",
+      "note": "Central Lancashire town at the heart of the stage's second half.",
+      "type": "town"
+    },
+    {
+      "name": "West Lancashire",
+      "county": "Lancashire",
+      "note": "The plain of West Lancashire carries the race towards Merseyside.",
+      "type": "town"
+    },
+    {
+      "name": "The Strand, Liverpool",
+      "county": "Merseyside",
+      "note": "A sprint finish along the waterfront beneath the Three Graces.",
+      "type": "finish"
+    }
   ],
   "sources": [
-    { "label": "Grand Départ GB 2027 — Stage 2", "url": "https://www.letourgb.com/tdfroutes/stage-2/" },
-    { "label": "Lancashire County Council — Tour de France coming through Lancashire (15 Jan 2026)", "url": "https://news.lancashire.gov.uk/news/tour-de-france-coming-through-lancashire" },
-    { "label": "UK Sport — Le Tour GB route announcement (15 Jan 2026)", "url": "https://www.uksport.gov.uk/news/2026/01/15/le-tour-gb-route" }
+    {
+      "label": "Grand Départ GB 2027 — Stage 2",
+      "url": "https://www.letourgb.com/tdfroutes/stage-2/"
+    },
+    {
+      "label": "Lancashire County Council — Tour de France coming through Lancashire (15 Jan 2026)",
+      "url": "https://news.lancashire.gov.uk/news/tour-de-france-coming-through-lancashire"
+    },
+    {
+      "label": "UK Sport — Le Tour GB route announcement (15 Jan 2026)",
+      "url": "https://www.uksport.gov.uk/news/2026/01/15/le-tour-gb-route"
+    }
+  ],
+  "faq": [
+    {
+      "q": "When is the Tour de France in Lancashire?",
+      "a": "Saturday 3 July 2027. Stage 2 of the 2027 Tour de France runs from Keswick to Liverpool, and Lancashire County Council expects around 80 miles of it to pass through the county."
+    },
+    {
+      "q": "Which Lancashire towns does the route go through?",
+      "a": "The race is expected to enter along the Morecambe Bay coast and pass through or near Carnforth, Morecambe and Lancaster, then the Forest of Bowland, Clitheroe, Whalley and Langho, Blackburn, Chorley, Wrightington and West Lancashire on its way to Merseyside. The corridor is confirmed. The exact roads and the detailed map are published by the organisers closer to the race."
+    },
+    {
+      "q": "Is it free to watch the Tour de France?",
+      "a": "Yes. Watching from the roadside is free and no ticket is needed. Official fan zones and any ticketed hospitality are announced separately by the organisers and local councils."
+    },
+    {
+      "q": "Where is the best place to watch in Lancashire?",
+      "a": "The categorised climbs, because the riders are slowest there and the crowds are biggest. Stage 2 has five of them. The first is the Côte de Jubilee Tower above Lancaster, and Lancashire County Council has named King of the Mountains ascents in the Trough of Bowland and over Rivington."
+    },
+    {
+      "q": "Will roads be closed on race day?",
+      "a": "Yes. Large stretches of the route and its approaches close to traffic for several hours and reopen only once the race has passed. The closure list is set by the police and the local councils and is not yet published, so check official announcements nearer the day."
+    },
+    {
+      "q": "How long is Stage 2 and where does it finish?",
+      "a": "Stage 2 covers 223 km, about 139 miles, from Keswick in the Lake District to a sprint finish on The Strand in Liverpool, with five categorised climbs along the way."
+    }
   ]
 }

@@ -1,0 +1,246 @@
+{
+  "_note": "Place guides under /route/<slug>/. Every factual claim here traces to one of three places: the Grand Départ GB 2027 Stage 2 announcement, Lancashire County Council's 15 January 2026 release, or material already verified on this site. Where something is not confirmed, say so in the copy rather than filling the gap.",
+  "places": [
+    {
+      "slug": "morecambe",
+      "name": "Morecambe",
+      "area": "The coast",
+      "kind": "town",
+      "title": "Tour de France in Morecambe, 3 July 2027",
+      "description": "The race is expected to enter Lancashire along the Morecambe Bay coast on Saturday 3 July 2027. What is confirmed, where to watch, and what else to do.",
+      "photo": "/img/photos/morecambe.jpg",
+      "photoW": 1200,
+      "photoH": 674,
+      "photoAlt": "Morecambe Bay at low tide, with the Lakeland fells across the water",
+      "standfirst": "Where Stage 2 meets Lancashire: a flat, wide seafront, the biggest tidal sands in Britain, and the easiest viewing on the whole county stretch.",
+      "body": [
+        "Lancashire County Council's announcement has the peloton sweeping onto the Morecambe Bay coastline as it crosses out of Cumbria, then passing through or near Carnforth, Morecambe and Lancaster before the road tilts upwards. Morecambe is therefore the county's front door for the 2027 Tour, and the first place in Lancashire where a roadside crowd can expect to see the race.",
+        "It is also the most forgiving place to watch. The promenade is long, level and surfaced, which matters more than it sounds: the race passes any single point in seconds, so most of the day is spent waiting, and a flat seafront with the bay in front of it is a far better place to wait than a moorland verge. Prams, wheelchairs and small children all do better here than on the climbs.",
+        "The trade-off is that flat coastal road is where the peloton travels fastest. If you want to see the riders for longer than a heartbeat, the climbs above Lancaster and in Bowland are the place to be, and plenty of people will do the sensible thing: watch the caravan and the run-in at Morecambe in the morning, then follow the day on a screen over a late lunch."
+      ],
+      "nearby": [
+        "Art Deco seafront and the sweep of Morecambe Bay",
+        "One of the great sunset views in Britain, straight across to the Lakeland fells",
+        "Miles of level, family-friendly promenade for race-day waiting"
+      ]
+    },
+    {
+      "slug": "carnforth",
+      "name": "Carnforth",
+      "area": "North Lancashire",
+      "kind": "town",
+      "title": "Tour de France in Carnforth, 3 July 2027",
+      "description": "Carnforth is named in Lancashire County Council's list of towns on or near the Stage 2 route on Saturday 3 July 2027. What is confirmed so far, and what is not.",
+      "standfirst": "A small railway town on the county's northern edge, named in the council's own list of places the race passes through or near.",
+      "body": [
+        "Carnforth sits at the northern edge of Lancashire, where the county meets Cumbria and the West Coast Main Line runs down towards Lancaster. Lancashire County Council names it among the places Stage 2 is expected to pass through or near, which puts it in the opening minutes of the county's 80 miles.",
+        "This is the quiet end of the Lancashire stage in every sense. The race will be moving quickly here, the crowds will be thinner than in Lancaster or on the climbs, and that is exactly the appeal for anyone who would rather not spend the day shoulder to shoulder. Leighton Hall, the country house on the northern part of the route, is close enough to build a morning around.",
+        "One caution worth repeating: the corridor is confirmed, the roads are not. Until A.S.O. and the local councils publish the detailed route and the closure list, nobody can tell you which street in Carnforth the race will use, and anyone who does is guessing."
+      ],
+      "nearby": [
+        "Leighton Hall, the country house on the northern part of the route",
+        "The West Coast Main Line and the approach to Morecambe Bay",
+        "Quieter roadside than the county's larger towns"
+      ]
+    },
+    {
+      "slug": "lancaster",
+      "name": "Lancaster",
+      "area": "The county city",
+      "kind": "town",
+      "title": "Tour de France in Lancaster, 3 July 2027",
+      "description": "Lancaster is the gateway to the day's first categorised climb on Saturday 3 July 2027. What is confirmed, the best viewing nearby, and what to see.",
+      "photo": "/img/photos/ashton.jpg",
+      "photoW": 1200,
+      "photoH": 900,
+      "photoAlt": "The green-domed Ashton Memorial rising above Lancaster",
+      "standfirst": "The county city, and the hinge of the whole Lancashire stage: everything before it is fast and flat, everything after it goes uphill.",
+      "body": [
+        "Lancaster is where Stage 2 stops being a coastal run and becomes a bike race. The official announcement puts the Côte de Jubilee Tower, on the moors east of the city, as the first categorised climb of the day, with five climbs in all counting towards the King of the Mountains competition before the descent towards Merseyside.",
+        "That makes the city an unusually good base rather than an unusually good viewing spot. You can be at the foot of the first climb in minutes, you have a choice of hotels and guest houses instead of the handful of rooms available up on the fells, and if the weather turns there is a thousand years of castle, a quay and the domed Ashton Memorial in Williamson Park to fall back on.",
+        "There is a second, older connection worth knowing. The Trough of Bowland, where the council says a King of the Mountains ascent will fall, is the most direct road between Lancaster and Dunsop Bridge, and so on to Clitheroe. It is the road the Pendle witches were taken along to their trial at Lancaster Castle in 1612. The race will cover in an afternoon a route that once took days."
+      ],
+      "nearby": [
+        "Ashton Memorial and Williamson Park, one of the finest views in the North West",
+        "Lancaster Castle and the quay",
+        "Minutes from the foot of the Côte de Jubilee Tower climb"
+      ]
+    },
+    {
+      "slug": "jubilee-tower",
+      "name": "Côte de Jubilee Tower",
+      "area": "Quernmore, above Lancaster",
+      "kind": "climb",
+      "title": "Côte de Jubilee Tower: the first climb, 3 July 2027",
+      "description": "The Côte de Jubilee Tower above Lancaster is the first categorised climb of Stage 2 on Saturday 3 July 2027, and one of the best places in Lancashire to watch.",
+      "photo": "/img/photos/jubilee.jpg",
+      "photoW": 1200,
+      "photoH": 900,
+      "photoAlt": "The stone Jubilee Tower on the moors above Lancaster",
+      "standfirst": "The only Lancashire climb named in the official announcement, and the first of the day's five. If you want to see the riders rather than glimpse them, come here.",
+      "body": [
+        "Of everything on the Lancashire section, this is the piece with the firmest official footing. The Grand Départ GB announcement names the Côte de Jubilee Tower directly as the stage's first categorised climb, rising onto the moors above Lancaster towards the stone tower that gives it its name. The other four categorised ascents are described only as being on the edge of the Pennines.",
+        "Climbs are where roadside spectating actually works. The riders are slowest, the road is usually narrower, the crowd noise funnels, and a group that flashes past a flat seafront in four seconds takes long enough here to pick out individual faces. It is also where the race is decided, because these are the points that count towards the polka-dot jersey.",
+        "Treat it as a hill day, not a roadside stop. There is no shelter to speak of on open moorland, the approach roads are narrow and will close early, and the sensible plan is to park well back in Lancaster or Quernmore and walk up in the morning with everything you need for the day. Clougha Pike, the moorland walk above the climb, is there if you arrive with hours to spare, which you should."
+      ],
+      "nearby": [
+        "Sweeping views over Morecambe Bay and the Lakeland fells",
+        "Clougha Pike moorland walking directly above the climb",
+        "Lancaster and Williamson Park a short distance below"
+      ]
+    },
+    {
+      "slug": "trough-of-bowland",
+      "name": "Trough of Bowland",
+      "area": "Forest of Bowland National Landscape",
+      "kind": "climb",
+      "title": "Tour de France in the Trough of Bowland, 2027",
+      "description": "Lancashire County Council names a King of the Mountains ascent in the Trough of Bowland on 3 July 2027. The pass, the viewing, and why it books up first.",
+      "photo": "/img/photos/bowland.jpg",
+      "photoW": 1200,
+      "photoH": 800,
+      "photoAlt": "Open moorland fells in the Forest of Bowland",
+      "standfirst": "A high pass through a National Landscape, named by the county council as a King of the Mountains ascent, and the wildest place the race goes all day.",
+      "body": [
+        "The Trough of Bowland is a valley and high pass at the heart of the Forest of Bowland National Landscape, reaching about 968 feet, or 295 metres, at the head of the valley. It is the most direct road between Lancaster and Dunsop Bridge, and so between Lancaster and Clitheroe, which is precisely the shape of the Lancashire stage. Lancashire County Council's announcement names a King of the Mountains ascent here.",
+        "It is worth being precise about what that does and does not tell you. The council names the Trough as a King of the Mountains ascent; the official Grand Départ GB stage page names only the Côte de Jubilee Tower and says there are a further four categorised climbs on the edge of the Pennines. The two are consistent, but the formal category and the exact profile of the Bowland climb are not published yet.",
+        "For spectators this is the hardest and the best of it. Open fell, no shelter, narrow lanes, thin phone signal, and a landscape that will look extraordinary on television. The Grey Stone of Trough at the head of the pass marks the old county boundary between Lancashire and the West Riding of Yorkshire, which gives you something to look at while you wait. Accommodation in Bowland is farmhouses, remote inns and cottages, and it will be the first thing in the county to sell out."
+      ],
+      "nearby": [
+        "The Grey Stone of Trough, marking the historic county boundary",
+        "Dark skies, open fell and the quietest riding in Lancashire",
+        "Farm stays and remote inns, in very small numbers"
+      ]
+    },
+    {
+      "slug": "clitheroe",
+      "name": "Clitheroe",
+      "area": "Ribble Valley",
+      "kind": "town",
+      "title": "Tour de France in Clitheroe, 3 July 2027",
+      "description": "Clitheroe is named on the Stage 2 corridor for Saturday 3 July 2027, between the Bowland fells and Blackburn. What is confirmed, and where to stay.",
+      "photo": "/img/photos/clitheroe.jpg",
+      "photoW": 1200,
+      "photoH": 745,
+      "photoAlt": "Clitheroe Castle keep on its limestone knoll above the town",
+      "standfirst": "The market town the race drops into after Bowland, under one of the smallest Norman keeps in the country and the whaleback of Pendle Hill.",
+      "body": [
+        "Coming off the fells, the road out of Bowland heads for Clitheroe, and Lancashire County Council names the town on the Stage 2 corridor. It arrives in the middle of the day and in the middle of the county, which makes Clitheroe one of the natural gathering points of the whole Lancashire stretch.",
+        "The town does this sort of thing well. It has a castle keep on a limestone knoll above a working market town, Pendle Hill watching over everything from the north east, and a food and drink scene that is the best reason in the county to stay the night rather than drive home. If you want the race and a proper weekend rather than the race and a long drive, the Ribble Valley is the answer.",
+        "Book early and book wide. Clitheroe, Whalley and the Ribble Valley villages hold country inns, boutique hotels and village bed and breakfasts rather than large chains, so the rooms nearest the route go first. Staying one town back is a perfectly good plan as long as you have checked the closure list, which is not published yet."
+      ],
+      "nearby": [
+        "Clitheroe Castle, one of the smallest Norman keeps in the country",
+        "Pendle Hill and its far-reaching summit views",
+        "The Ribble Way and riverside walking through the valley"
+      ]
+    },
+    {
+      "slug": "whalley-and-langho",
+      "name": "Whalley and Langho",
+      "area": "Ribble Valley",
+      "kind": "town",
+      "title": "Tour de France in Whalley and Langho, 2027",
+      "description": "Whalley and Langho are named on the Stage 2 corridor for Saturday 3 July 2027, between Clitheroe and Blackburn. The confirmed picture and what to see nearby.",
+      "photo": "/img/photos/whalley.jpg",
+      "photoW": 1400,
+      "photoH": 688,
+      "photoAlt": "The long red-brick Whalley Viaduct crossing the Calder valley",
+      "standfirst": "Two Ribble Valley villages on the run between Clitheroe and Blackburn, with a Cistercian abbey and forty-eight brick arches for a backdrop.",
+      "body": [
+        "Lancashire County Council names the Whalley and Langho area among the places Stage 2 passes through or near, on the stretch that carries the race out of the Ribble Valley and towards Blackburn. It is a short section, and a photogenic one.",
+        "Whalley's two landmarks bracket the village. Whalley Abbey leaves Cistercian ruins in the middle of the settlement, and the viaduct strides across the Calder valley on forty-eight brick arches, one of the longest in Lancashire. Television directors like this sort of thing, which is a reasonable proxy for whether a place is worth standing in.",
+        "Practically, this is village roadside: limited parking, narrow approaches and closures that will bite early. The realistic plan is to base yourself in Clitheroe or Blackburn and come in on foot or by bike in the morning, and to treat everything about timings as provisional until the organisers publish the schedule."
+      ],
+      "nearby": [
+        "Whalley Abbey, Cistercian ruins in the village centre",
+        "Whalley Viaduct and its forty-eight brick arches",
+        "Easy reach of both Clitheroe and Blackburn for a bed"
+      ]
+    },
+    {
+      "slug": "blackburn",
+      "name": "Blackburn",
+      "area": "East Lancashire",
+      "kind": "town",
+      "title": "Tour de France in Blackburn, 3 July 2027",
+      "description": "Blackburn is named on the Stage 2 corridor for Saturday 3 July 2027. The confirmed picture, why it is the value base for race weekend, and what to see.",
+      "photo": "/img/photos/blackburn.jpg",
+      "photoW": 1200,
+      "photoH": 900,
+      "photoAlt": "Blackburn Cathedral with its slender lantern spire",
+      "standfirst": "The largest town on the Lancashire section, and the one with enough beds to matter when every country inn in the Ribble Valley has gone.",
+      "body": [
+        "Blackburn is named by Lancashire County Council on the Stage 2 corridor, on the stretch between the Ribble Valley and Chorley. It is the biggest urban centre the race meets in the county, and a town-centre crowd is a different animal from a moorland one: more people, more noise, more places to get a coffee while you wait.",
+        "Its real argument, though, is arithmetic. The Ribble Valley and Bowland hold country inns and farmhouses in small numbers, and they will sell out first. Blackburn has town-centre hotels and budget chains, which means availability and a price that is not set by scarcity, plus reasonable reach of several viewing points on the Whalley, Langho and Blackburn stretch.",
+        "The cathedral, with its lantern tower and one of the finest modern cathedral interiors in the north, and King George's Hall are the landmarks worth an hour either side of the race. As everywhere else on this route, the closure list and the timings are set by the police and the councils and have not been published."
+      ],
+      "nearby": [
+        "Blackburn Cathedral and its lantern tower",
+        "King George's Hall",
+        "Town-centre hotels with genuine race-weekend availability"
+      ]
+    },
+    {
+      "slug": "chorley",
+      "name": "Chorley",
+      "area": "Central Lancashire",
+      "kind": "town",
+      "title": "Tour de France in Chorley, 3 July 2027",
+      "description": "Chorley is named on the Stage 2 corridor for Saturday 3 July 2027, on the run towards West Lancashire and the Liverpool finish. What is confirmed so far.",
+      "photo": "/img/photos/astley.jpg",
+      "photoW": 1200,
+      "photoH": 800,
+      "photoAlt": "The Jacobean front of Astley Hall, Chorley, with its great bay windows",
+      "standfirst": "Central Lancashire's stop on the second half of the stage, with Astley Hall in a public park and the Rivington climb on its doorstep.",
+      "body": [
+        "The second half of Stage 2 runs through central Chorley and out across the West Lancashire plain towards Merseyside, and Lancashire County Council names the town on the corridor. By this point the race has done its climbing in Bowland and is heading for the coast, which usually means speed.",
+        "Chorley's advantage is position. It sits close to the M6 and M61 for anyone driving up, it has hotels and inns with parking rather than town-centre kerbside chaos, and it is the obvious base for the Rivington ascent that the county council names among the King of the Mountains climbs. Staying here also keeps the Liverpool finish within reach if you want both halves of the day.",
+        "Astley Hall is the thing to see: an Elizabethan and Jacobean hall of glittering glass bays standing in a public park, a short distance from the route. It is a good place to spend the hours before the road closes, which will be earlier than most people expect."
+      ],
+      "nearby": [
+        "Astley Hall and its public park",
+        "Rivington and the West Pennine Moors climb",
+        "Motorway and rail links to both the route and Liverpool"
+      ]
+    },
+    {
+      "slug": "rivington",
+      "name": "Rivington",
+      "area": "West Pennine Moors, Chorley",
+      "kind": "climb",
+      "title": "Tour de France over Rivington, 3 July 2027",
+      "description": "Lancashire County Council names a King of the Mountains ascent over Rivington on Saturday 3 July 2027. The climb, the terraced gardens, and where to watch.",
+      "standfirst": "The council names a King of the Mountains ascent over Rivington, which puts a climb on the second half of the stage in some of the best-loved walking country in the county.",
+      "body": [
+        "Rivington is a village and civil parish in the Borough of Chorley, sitting at the foot of Rivington Pike on the edge of the West Pennine Moors. Lancashire County Council's announcement names a King of the Mountains ascent over Rivington, alongside the one in the Trough of Bowland, which places a categorised climb late in the Lancashire section rather than only in the fells.",
+        "Rivington Pike itself stands at 1,191 feet, or 363 metres, the most westerly high point of Winter Hill, with the Pike Tower a prominent landmark below the summit. Below that lie the Rivington Terraced Gardens, about 45 acres of steep west-facing slope laid out between 1906 and 1922 largely by Thomas Mawson for Lord Leverhulme, now Grade II listed. They sit within Lever Park, roughly 160 hectares of gardens, lakes and woodland given by William Lever in 1902 and legally protected as public open space with free access.",
+        "That combination, a hard climb and a large free park at the bottom of it, is unusually good for a bike race. It also means Rivington will be busy. As with every other climb on this stage, the formal category, the exact road and the closure times are not published yet, and the announcements that matter will come from A.S.O., the police and the councils nearer the day."
+      ],
+      "nearby": [
+        "Rivington Pike, 1,191 feet, and the Pike Tower below the summit",
+        "Rivington Terraced Gardens, Grade II listed, laid out from 1906",
+        "Lever Park, free public open space since 1902"
+      ]
+    },
+    {
+      "slug": "west-lancashire",
+      "name": "West Lancashire",
+      "area": "The plain",
+      "kind": "town",
+      "title": "Tour de France in West Lancashire, 3 July 2027",
+      "description": "West Lancashire and Wrightington are named on the Stage 2 corridor for Saturday 3 July 2027, the last of the county before the race crosses into Merseyside.",
+      "standfirst": "The county's final stretch, flat and fast, and the sensible base for anyone who wants the Lancashire route and the Liverpool finish in one day.",
+      "body": [
+        "Lancashire County Council names Wrightington and West Lancashire on the Stage 2 corridor, on the run from Chorley towards Merseyside. This is the plain: flat, open and quick, the part of the day where a breakaway either holds on or is swallowed.",
+        "It is the one part of the Lancashire section where watching the race and watching the finish are compatible. The stage ends on The Strand in Liverpool, beneath the Three Graces, and from West Lancashire that is a short hop rather than a cross-county trek. Anyone who wants to see the peloton in the county and then the sprint on the waterfront should be looking at rooms here.",
+        "The usual caveat applies with more force on a flat stage. Riders come through faster here than anywhere else in Lancashire, so pick a spot with a long sightline, get there early, and accept that the closure list which will decide all of this has not been published."
+      ],
+      "nearby": [
+        "Market-town and rural stays across the West Lancashire plain",
+        "The quickest run in the county to the Liverpool finish",
+        "Long, open sightlines for a fast section of the stage"
+      ]
+    }
+  ]
+}
