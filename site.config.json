@@ -174,5 +174,10 @@
       "q": "How long is Stage 2 and where does it finish?",
       "a": "Stage 2 covers 223 km, about 139 miles, from Keswick in the Lake District to a sprint finish on The Strand in Liverpool, with five categorised climbs along the way."
     }
-  ]
+  ],
+  "analytics": {
+    "_note": "Cloudflare Web Analytics. beaconToken is the PUBLIC site tag from the Cloudflare dashboard (Analytics & Logs > Web Analytics > this site > Manage site > JS snippet), a 32-character hex string. It is not a secret: it ships in the HTML of every page. Leave it empty and no script is emitted at all. The privacy page already describes this beacon, so with it empty that page is describing something the site does not do.",
+    "provider": "cloudflare",
+    "beaconToken": ""
+  }
 }

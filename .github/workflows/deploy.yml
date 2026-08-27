@@ -1,45 +1,132 @@
-# Builds the static site and deploys it to Cloudflare Pages on push to main.
-# All values are static; no untrusted GitHub-event data is interpolated into
-# run steps, so there is no event-injection risk. Secrets are passed via env.
-name: Deploy to Cloudflare Pages
+# Builds the site, runs the SEO gate, and deploys to Cloudflare Pages.
+#
+# All values below are static or come from `secrets`/`env`. No GitHub-event
+# data (branch names, PR titles, commit messages, author names) is interpolated
+# into any `run:` step, so there is no event-injection risk.
+#
+# The deploy step needs two repo secrets, CLOUDFLARE_API_TOKEN and
+# CLOUDFLARE_ACCOUNT_ID. While they are absent the deploy job is SKIPPED rather
+# than failed: the check job still runs on every push and pull request, so main
+# stays gated, and the run is not a misleading red X. The check job's summary
+# says in as many words whether anything was published. Add the secrets and
+# deployment starts working on the next push with no further edits. Until then,
+# publish by hand from a clean checkout of main:
+#
+#   node build.mjs && node seo-check.mjs
+#   npx wrangler@4 pages deploy dist --project-name tourdefrancelancashire \
+#     --branch main --commit-dirty=true
+name: Build, check and deploy
 
 on:
   push:
     branches: [ main ]
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  deploy:
+  check:
+    name: Build and SEO gate
     runs-on: ubuntu-latest
+    outputs:
+      can-deploy: ${{ steps.probe.outputs.can-deploy }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Build
         run: node build.mjs
 
-      # Refuses the deploy on an over-long title, a duplicate description, an
-      # unparseable JSON-LD graph, FAQ markup that has drifted from the page,
-      # a sitemap that disagrees with what was built, a missing 404.html, or an
-      # em-dash. All static values, no GitHub-event data interpolated.
-      - name: SEO check
+      # Refuses an over-long or duplicated title, a missing canonical, a page
+      # without exactly one h1, JSON-LD that will not parse or that references
+      # an @id nothing defines, FAQ copy drifted from site.config.json, a
+      # sitemap that disagrees with dist in either direction, a missing
+      # 404.html, thin or near-duplicate body copy, an orphan page, an internal
+      # link to a file that was not built, an image with no alt or dimensions,
+      # and any em-dash. Warnings (things only a human with dashboard access
+      # can fix) are printed but do not block.
+      - name: SEO gate
+        run: node seo-check.mjs 2>&1 | tee /tmp/seo-check.log
+
+      - name: Can this run deploy?
+        id: probe
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$CF_TOKEN" ] && [ -n "$CF_ACCOUNT" ]; then
+            echo "can-deploy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "can-deploy=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Summary
+        env:
+          CAN_DEPLOY: ${{ steps.probe.outputs.can-deploy }}
+          IS_PUSH: ${{ github.event_name == 'push' }}
+        run: |
+          {
+            echo "## Build and SEO gate"
+            echo
+            echo '```'
+            cat /tmp/seo-check.log
+            echo '```'
+            echo
+            if [ "$CAN_DEPLOY" != "true" ]; then
+              echo "### NOT PUBLISHED"
+              echo
+              echo "Cloudflare secrets are not set on this repository, so nothing was deployed."
+              echo "The live site is unchanged. To publish this commit, run from a clean checkout of main:"
+              echo
+              echo '```'
+              echo 'node build.mjs && node seo-check.mjs'
+              echo 'npx wrangler@4 pages deploy dist --project-name tourdefrancelancashire --branch main --commit-dirty=true'
+              echo '```'
+              echo
+              echo "To make this automatic, add repo secrets CLOUDFLARE_API_TOKEN (a token with"
+              echo "Cloudflare Pages: Edit on this account) and CLOUDFLARE_ACCOUNT_ID."
+            elif [ "$IS_PUSH" != "true" ]; then
+              echo "### Not published (pull request)"
+              echo
+              echo "Checks only. Merging to main will deploy."
+            else
+              echo "### Deploying"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  deploy:
+    name: Deploy to Cloudflare Pages
+    needs: check
+    if: github.event_name == 'push' && needs.check.outputs.can-deploy == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Build
+        run: node build.mjs
+
+      - name: SEO gate
         run: node seo-check.mjs
 
-      - name: Deploy to Cloudflare Pages
+      - name: Deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
-            echo "::error::Add repo secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID to enable deployment."
-            exit 1
-          fi
-          npx wrangler@4 pages deploy dist --project-name tourdefrancelancashire --branch main --commit-dirty=true
+          npx wrangler@4 pages deploy dist \
+            --project-name tourdefrancelancashire \
+            --branch main \
+            --commit-dirty=true

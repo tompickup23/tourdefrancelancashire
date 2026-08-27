@@ -14,7 +14,7 @@ Zero-dependency static site. A small Node generator (`build.mjs`) assembles `src
 
 ```
 src/
-  layout.html        shared HTML shell (SEO meta, structured data)
+  layout.html        shared HTML shell (SEO meta, structured data, analytics)
   partials/          header + footer
   svg/               original artwork (rose, logo, route map, landmarks, hero)
   css/site.css       design system
@@ -31,11 +31,74 @@ public/              static passthrough (_headers, fonts, favicon, og image, pho
 
 ```bash
 node build.mjs         # outputs to dist/
+npm run seo-check      # the gate: run it before every deploy
 npm run preview        # build + serve at http://localhost:8799
 
 # deploy (wrangler must be logged in; run `wrangler login` UNSANDBOXED)
-node build.mjs && wrangler pages deploy dist --project-name tourdefrancelancashire --branch main --commit-dirty=true
+node build.mjs && node seo-check.mjs && npx wrangler@4 pages deploy dist --project-name tourdefrancelancashire --branch main --commit-dirty=true
 ```
+
+`seo-check.mjs` refuses an over-long or duplicated title, a missing canonical, a
+page without exactly one h1, JSON-LD that will not parse or that references an
+`@id` nothing defines, FAQ copy that has drifted from `site.config.json`, a
+sitemap that disagrees with `dist` in either direction, a missing `404.html`,
+body copy under 220 words, more than 40% five-word overlap between any two
+pages, an orphan page, an internal link to a file that was not built, an image
+with no alt text or intrinsic dimensions, and any em-dash. It also warns about
+things only a human with dashboard access can fix, which do not block a build.
+Every check is proved to fail on a deliberately broken input; see PROVING THE
+GATES at the foot of that file, and add a proof for anything new.
+
+## Two things that need a Cloudflare dashboard
+
+Both are five-minute jobs and neither can be done from this repo. Until they are
+done the site still works; it just deploys by hand and measures nothing.
+
+### 1. Turn the visitor counter on
+
+`/privacy/` tells readers the site uses Cloudflare Web Analytics and that this is
+"the one request a page makes to another address on load". **That is currently
+untrue: no beacon ships, so the site makes no third-party requests at all.** The
+SEO gate warns about the mismatch on every run.
+
+In the Cloudflare dashboard, go to **Analytics & Logs > Web Analytics**, add or
+open `tourdefrancelancashire.co.uk`, choose **Manage site > JS snippet**, and
+copy the 32-character hex `token` value out of it. Paste it into
+`site.config.json`:
+
+```json
+"analytics": { "provider": "cloudflare", "beaconToken": "<the 32 hex characters>" }
+```
+
+Then rebuild and deploy. The beacon is emitted on every page, the warning goes
+away, and the gate starts enforcing that no page is missing it. **That token is
+public**, it ships in the HTML of every page, so it belongs in this file and not
+in a secret. Do not reuse another site's token: this property is kept separate
+from the rest of the estate on purpose.
+
+### 2. Let CI deploy
+
+The `deploy` job is skipped while the repo has no Cloudflare secrets, so pushes
+build and gate but publish nothing, and the run summary says so. To enable it:
+
+1. Cloudflare dashboard > **My Profile > API Tokens > Create Token**, use the
+   **Edit Cloudflare Workers** template or a custom token with **Account >
+   Cloudflare Pages > Edit** on the `tompickup@gmail.com` account, and copy the
+   token once (it is shown only at creation).
+2. In this repo, **Settings > Secrets and variables > Actions > New repository
+   secret**, twice:
+   - `CLOUDFLARE_API_TOKEN` = the token from step 1
+   - `CLOUDFLARE_ACCOUNT_ID` = `35e8f9e8edb5487b97309d107331f7f5`
+
+   Or from a terminal, which prompts for the value rather than putting it in
+   shell history:
+
+   ```bash
+   gh secret set CLOUDFLARE_API_TOKEN --repo tompickup23/tourdefrancelancashire
+   gh secret set CLOUDFLARE_ACCOUNT_ID --repo tompickup23/tourdefrancelancashire
+   ```
+
+The next push to main deploys on its own. Nothing else needs editing.
 
 ## Editing
 

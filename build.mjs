@@ -93,6 +93,21 @@ function emit(relPath, html) {
   writeFileSync(dest, html);
 }
 
+/* ---- Analytics ----------------------------------------------------------
+ * Cloudflare Web Analytics, cookieless. The beacon token is a public site tag,
+ * not a secret: it ships in the HTML of every page, which is why it lives in
+ * site.config.json rather than an environment variable. With it empty nothing
+ * is emitted, so the site keeps making zero third-party requests. The CSP in
+ * public/_headers already allows static.cloudflareinsights.com in script-src
+ * and cloudflareinsights.com in connect-src, so no header change is needed. */
+const BEACON = ((config.analytics && config.analytics.beaconToken) || '').trim();
+if (BEACON && !/^[0-9a-f]{32}$/.test(BEACON)) {
+  throw new Error(`analytics.beaconToken must be 32 hex characters, got ${JSON.stringify(BEACON)}`);
+}
+const analyticsTag = BEACON
+  ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"${BEACON}"}'></script>`
+  : '';
+
 /* ---- Structured data ---------------------------------------------------- */
 const U = config.site.url;
 const ldScript = (obj) => `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, '\\u003c')}</script>`;
@@ -258,6 +273,7 @@ function buildPage(meta, body, outPath) {
     updated: meta.updated || config.site.contentUpdated,
     canonical,
     bodyClass: meta.bodyClass || '',
+    analytics: analyticsTag,
   };
   page.jsonld = meta.robots && meta.robots.includes('noindex') ? '' : pageGraph(page, meta);
   const content = render(body, { active, page });
