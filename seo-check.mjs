@@ -257,19 +257,45 @@ for (const rel of html) {
  * Cloudflare dashboard, so it warns rather than blocking every deploy. */
 {
   const token = ((config.analytics && config.analytics.beaconToken) || '').trim();
-  const claimsAnalytics = /Cloudflare Web Analytics/i.test(text('privacy/index.html'));
+  const on = !!token;
+  const active = config.analytics.copy[on ? 'on' : 'off'];
+  const inactive = config.analytics.copy[on ? 'off' : 'on'];
+  const privacy = text('privacy/index.html');
   const withBeacon = html.filter((rel) => text(rel).includes('static.cloudflareinsights.com'));
 
-  if (token) {
-    if (!/^[0-9a-f]{32}$/.test(token)) fail('site.config.json', `analytics.beaconToken is not 32 hex characters: ${token}`);
+  if (on && !/^[0-9a-f]{32}$/.test(token)) {
+    fail('site.config.json', `analytics.beaconToken is not 32 hex characters: ${token}`);
+  }
+
+  // The beacon must be on every page or none of them, matching the setting.
+  if (on) {
     const missing = html.filter((rel) => !withBeacon.includes(rel));
     if (missing.length) fail('dist', `beacon token is set but ${missing.length} page(s) do not carry it, first: ${missing[0]}`);
-    if (!claimsAnalytics) fail('privacy/index.html', 'a beacon ships but the privacy page does not disclose it');
-  } else if (claimsAnalytics && !withBeacon.length) {
-    warn('privacy/index.html',
-      'says the site uses Cloudflare Web Analytics, but no page carries the beacon. '
-      + 'Paste the public site tag into analytics.beaconToken in site.config.json '
-      + '(Cloudflare dashboard: Analytics & Logs > Web Analytics > Manage site > JS snippet) and rebuild.');
+  } else if (withBeacon.length) {
+    fail('dist', `no beacon token is set but ${withBeacon.length} page(s) load one, first: ${withBeacon[0]}`);
+  }
+
+  // The privacy page must carry the copy for the state the site is actually in,
+  // and none of the copy for the state it is not in. Checking the built page
+  // against site.config.json, not against the other half of the same build,
+  // is what makes this catch a stale dist or a hand-edited page.
+  for (const [key, wanted] of Object.entries(active)) {
+    if (!privacy.includes(wanted)) {
+      fail('privacy/index.html', `analytics is ${on ? 'ON' : 'OFF'} but the page is missing the "${key}" copy for that state`);
+    }
+  }
+  for (const key of ['summary', 'processing']) {
+    if (privacy.includes(inactive[key])) {
+      fail('privacy/index.html', `analytics is ${on ? 'ON' : 'OFF'} but the page still carries the "${key}" copy for the other state`);
+    }
+  }
+
+  if (!on) {
+    warn('site.config.json',
+      'no analytics.beaconToken, so nothing is measured. The privacy page correctly says so. '
+      + 'To turn counting on, paste the public 32-hex site tag from the Cloudflare dashboard '
+      + '(Analytics & Logs > Web Analytics > Manage site > JS snippet) and rebuild: the beacon '
+      + 'and the privacy wording both follow that one setting.');
   }
 }
 

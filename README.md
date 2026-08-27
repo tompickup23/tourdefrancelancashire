@@ -56,25 +56,28 @@ done the site still works; it just deploys by hand and measures nothing.
 
 ### 1. Turn the visitor counter on
 
-`/privacy/` tells readers the site uses Cloudflare Web Analytics and that this is
-"the one request a page makes to another address on load". **That is currently
-untrue: no beacon ships, so the site makes no third-party requests at all.** The
-SEO gate warns about the mismatch on every run.
+Nothing is measured at the moment. The site runs no analytics, makes no
+third-party request on load, and `/privacy/` says exactly that.
 
-In the Cloudflare dashboard, go to **Analytics & Logs > Web Analytics**, add or
-open `tourdefrancelancashire.co.uk`, choose **Manage site > JS snippet**, and
-copy the 32-character hex `token` value out of it. Paste it into
-`site.config.json`:
+One setting controls all of it. In the Cloudflare dashboard go to **Analytics &
+Logs > Web Analytics**, add or open `tourdefrancelancashire.co.uk`, choose
+**Manage site > JS snippet**, and copy the 32-character hex `token` out of it.
+Paste it into `site.config.json`:
 
 ```json
 "analytics": { "provider": "cloudflare", "beaconToken": "<the 32 hex characters>" }
 ```
 
-Then rebuild and deploy. The beacon is emitted on every page, the warning goes
-away, and the gate starts enforcing that no page is missing it. **That token is
-public**, it ships in the HTML of every page, so it belongs in this file and not
-in a secret. Do not reuse another site's token: this property is kept separate
-from the rest of the estate on purpose.
+Rebuild and deploy. Three things happen from that one value: the beacon is
+emitted on every page, the privacy notice switches to the wording that describes
+cookieless analytics, and the gate starts enforcing that no page is missing the
+beacon and that the notice matches. Clear the token and all three reverse.
+
+The wording for both states is in `analytics.copy.on` and `analytics.copy.off`
+in the same file, so what the site does and what it tells readers cannot drift
+apart. **The token is public**: it ships in the HTML of every page, which is why
+it lives in the config and not in a secret. Do not reuse another site's token,
+this property is kept separate from the rest of the estate on purpose.
 
 ### 2. Let CI deploy
 

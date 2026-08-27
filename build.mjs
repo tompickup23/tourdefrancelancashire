@@ -58,6 +58,7 @@ function render(tpl, ctx) {
   out = out.replace(/\{\{nav\}\}/g, () => buildNav(ctx.active));
   out = out.replace(/\{\{year\}\}/g, () => String(BUILD_YEAR));
   out = out.replace(/\{\{faq\}\}/g, () => faqHtml());
+  out = out.replace(/\{\{analytics\.(\w+)\}\}/g, (_, k) => analyticsToken(k));
   // data tokens: {{site.name}} / {{page.title}}
   out = out.replace(/\{\{([\w.]+)\}\}/g, (m, path) => {
     if (path.startsWith('page.') && ctx.page) {
@@ -107,6 +108,12 @@ if (BEACON && !/^[0-9a-f]{32}$/.test(BEACON)) {
 const analyticsTag = BEACON
   ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"${BEACON}"}'></script>`
   : '';
+
+/* What /privacy/ says about visitor counting, chosen by the same setting that
+ * decides whether the beacon ships. The page cannot describe analytics the
+ * site does not run, or stay silent about analytics it does. */
+const ANALYTICS_COPY = config.analytics.copy[BEACON ? 'on' : 'off'];
+const analyticsToken = (key) => ANALYTICS_COPY[key] || '';
 
 /* ---- Structured data ---------------------------------------------------- */
 const U = config.site.url;
@@ -263,7 +270,8 @@ function buildPage(meta, body, outPath) {
   const title = meta.title || config.site.name;
   const page = {
     title,
-    description: meta.description || config.site.description,
+    description: (meta.description || config.site.description)
+      .replace(/\{\{analytics\.(\w+)\}\}/g, (_, k) => analyticsToken(k)),
     fullTitle: meta.fullTitle || (meta.title ? `${meta.title} · ${config.site.name}` : `${config.site.name} · ${config.site.tagline}`),
     ogimage: meta.ogimage || '/img/og-default.png',
     ogwidth: meta.ogwidth || '1200',
