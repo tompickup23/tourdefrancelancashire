@@ -166,6 +166,73 @@ if (!sawBreadcrumb) fail('site', 'no BreadcrumbList anywhere');
   }
 }
 
+/* ---- 4b. Body text: thin pages and near-duplicates ----------------------
+ * Eleven place guides built from one template is exactly the shape that goes
+ * thin or duplicate without anyone noticing, so measure it rather than assume.
+ * The shingle comparison is over the page body with the shared header, footer
+ * and nav stripped out, or every page would look 90% identical to every other. */
+const WORDS_MIN = 220;
+const OVERLAP_MAX = 0.4; // real worst pair sits at 27.8%, so this has teeth without false alarms
+const bodies = new Map();
+for (const rel of html) {
+  const s = text(rel);
+  if ((one(s, /<meta name="robots" content="([^"]*)"/) || '').includes('noindex')) continue;
+  const main = (s.match(/<main id="main">([\s\S]*?)<\/main>/) || [])[1];
+  if (!main) { fail(rel, 'no <main> element'); continue; }
+  const words = decode(main.replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim().split(' ').filter(Boolean);
+  if (words.length < WORDS_MIN) fail(rel, `${words.length} words of body copy, under ${WORDS_MIN}`);
+  bodies.set(rel, words.map((w) => w.toLowerCase().replace(/[^a-z0-9]/g, '')).filter(Boolean));
+}
+const shingles = (w) => new Set(w.slice(0, -4).map((_, i) => w.slice(i, i + 5).join(' ')));
+const shingled = new Map([...bodies].map(([rel, w]) => [rel, shingles(w)]));
+const seenPair = new Set();
+for (const [a, sa] of shingled) {
+  for (const [b, sb] of shingled) {
+    if (a === b || seenPair.has(b + '|' + a)) continue;
+    seenPair.add(a + '|' + b);
+    const smaller = sa.size <= sb.size ? sa : sb;
+    const larger = sa.size <= sb.size ? sb : sa;
+    if (!smaller.size) continue;
+    let hits = 0;
+    for (const sh of smaller) if (larger.has(sh)) hits++;
+    const overlap = hits / smaller.size;
+    if (overlap > OVERLAP_MAX) fail(`${a} + ${b}`, `${Math.round(overlap * 100)}% of body text is shared, over ${OVERLAP_MAX * 100}%`);
+  }
+}
+
+/* ---- 4c. Internal links resolve, and nothing is orphaned ---------------- */
+{
+  const linkedTo = new Set();
+  for (const rel of html) {
+    const s = text(rel);
+    for (const m of s.matchAll(/<a[^>]+href="(\/[^"]*)"/g)) {
+      const href = m[1].split('#')[0];
+      if (!href) continue;
+      const file = href === '/' ? 'index.html'
+        : href.endsWith('/') ? href.slice(1) + 'index.html'
+        : href.slice(1);
+      if (!existsSync(join(DIST, file))) fail(rel, `links to ${m[1]}, which was not built`);
+      else if (rel !== file) linkedTo.add(file);
+    }
+  }
+  for (const rel of html) {
+    if (rel === 'index.html' || rel === '404.html') continue;
+    if ((one(text(rel), /<meta name="robots" content="([^"]*)"/) || '').includes('noindex')) continue;
+    if (!linkedTo.has(rel)) fail(rel, 'orphan: no other page links to it');
+  }
+}
+
+/* ---- 4d. Images carry alt text and intrinsic dimensions ----------------- */
+for (const rel of html) {
+  for (const m of text(rel).matchAll(/<img[^>]*>/g)) {
+    const tag = m[0];
+    if (!/\salt="[^"]+"/.test(tag)) fail(rel, `img with no alt text: ${tag.slice(0, 70)}`);
+    if (!/\swidth="\d+"/.test(tag) || !/\sheight="\d+"/.test(tag)) {
+      fail(rel, `img with no width/height, which shifts layout: ${tag.slice(0, 70)}`);
+    }
+  }
+}
+
 /* ---- 5. A real 404 page exists ------------------------------------------ */
 if (!existsSync(join(DIST, '404.html'))) {
   fail('dist', 'no 404.html, so Cloudflare Pages will serve the homepage with HTTP 200');

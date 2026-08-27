@@ -167,11 +167,40 @@ function pageGraph(page, meta) {
       primaryImageOfPage: { '@type': 'ImageObject', url: U + page.ogimage },
       datePublished: (meta.article && meta.article.date) || config.site.contentPublished,
       dateModified: page.updated,
-      ...(meta.event === 'true' ? { about: { '@id': `${U}/#stage2` }, mainEntity: { '@id': `${U}/#stage2` } } : {}),
+      ...(meta.place
+        ? { about: [{ '@id': `${page.canonical}#place` }, { '@id': `${U}/#stage2` }], mainEntity: { '@id': `${page.canonical}#place` } }
+        : meta.event === 'true'
+          ? { about: { '@id': `${U}/#stage2` }, mainEntity: { '@id': `${U}/#stage2` } }
+          : {}),
     },
   ];
-  if (meta.event === 'true' || meta.article) graph.push(stageEvent());
+  if (meta.event === 'true' || meta.article || meta.place) graph.push(stageEvent());
+  if (meta.place) {
+    const pl = meta.place;
+    graph.push({
+      '@type': pl.kind === 'climb' ? 'Landform' : 'Place',
+      '@id': `${page.canonical}#place`,
+      name: pl.name,
+      description: pl.standfirst,
+      url: page.canonical,
+      ...(pl.photo ? { image: [U + pl.photo] } : {}),
+      containedInPlace: { '@type': 'AdministrativeArea', name: 'Lancashire, England' },
+      event: { '@id': `${U}/#stage2` },
+    });
+  }
   if (meta.faq === 'true') graph.push(faqNode(page));
+  if (meta.places === 'true') {
+    graph.push({
+      '@type': 'ItemList',
+      '@id': `${page.canonical}#corridor`,
+      name: 'The Lancashire corridor, in racing order',
+      numberOfItems: places.length,
+      itemListOrder: 'https://schema.org/ItemListOrderAscending',
+      itemListElement: places.map((pl, i) => ({
+        '@type': 'ListItem', position: i + 1, name: pl.name, url: U + placeUrl(pl),
+      })),
+    });
+  }
   if (meta.article) {
     const a = meta.article;
     graph.push({
@@ -237,6 +266,106 @@ function buildPage(meta, body, outPath) {
   return page;
 }
 
+/* ---- Place guides ------------------------------------------------------
+ * One page per confirmed stop on the Lancashire corridor, under /route/.
+ * Copy lives in places.json, which carries the sourcing note: every claim
+ * traces to the Grand Depart GB stage page, Lancashire County Council's
+ * January 2026 release, or something already verified elsewhere on the site. */
+const places = JSON.parse(read(join(ROOT, 'places.json'))).places;
+const placeUrl = (p) => `/route/${p.slug}/`;
+
+function buildPlaces() {
+  places.forEach((p, i) => {
+    const prev = places[i - 1];
+    const next = places[i + 1];
+    const body = `
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow">${p.area} · Stage 2 · Saturday 3 July 2027</span>
+    <h1>${p.name}</h1>
+    <p class="lede">${p.standfirst}</p>
+  </div>
+</section>
+${p.photo ? `
+<section style="padding-top:0">
+  <div class="wrap" style="max-width:900px">
+    <img class="place-hero" src="${p.photo}" alt="${p.photoAlt}" width="${p.photoW}" height="${p.photoH}" fetchpriority="high" />
+  </div>
+</section>` : ''}
+
+<section style="padding-top:${p.photo ? '2.4rem' : '0'}">
+  <div class="wrap" style="max-width:760px">
+    <div class="prose">
+      ${p.body.map((para) => `<p>${para}</p>`).join('\n      ')}
+    </div>
+  </div>
+</section>
+
+<section class="bg-paper2">
+  <div class="wrap" style="max-width:900px">
+    <div class="grid grid-2">
+      <div class="area">
+        <p class="meta">Worth your time</p>
+        <h2>Nearby</h2>
+        <ul>
+          ${p.nearby.map((n) => `<li>${n}</li>`).join('\n          ')}
+        </ul>
+      </div>
+      <div class="area">
+        <p class="meta">Still to come</p>
+        <h2>What is not confirmed</h2>
+        <ul>
+          <li>The exact roads through ${p.name}</li>
+          <li>Road closure times, and when they reopen</li>
+          <li>Official fan zones, parking and park-and-ride</li>
+          <li>The timetable for the caravan and the peloton</li>
+        </ul>
+      </div>
+    </div>
+    <p class="faq-note">The organisers, the police and the local councils publish these closer to the race. This page says what is known and nothing more.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" style="max-width:900px">
+    <nav class="place-prevnext" aria-label="Along the route">
+      ${prev ? `<a class="pn pn--prev" href="${placeUrl(prev)}"><span>Earlier in the stage</span><b>&larr; ${prev.name}</b></a>` : '<span></span>'}
+      ${next ? `<a class="pn pn--next" href="${placeUrl(next)}"><span>Later in the stage</span><b>${next.name} &rarr;</b></a>` : '<span></span>'}
+    </nav>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <span class="eyebrow" style="justify-content:center">Next</span>
+    <h2>Plan the day around ${p.name}</h2>
+    <p>The full corridor, the practical guidance for race day, and where to put your head down afterwards.</p>
+    <div class="hero-cta" style="justify-content:center">
+      <a class="btn btn--primary" href="/route/">The whole route</a>
+      <a class="btn btn--ghost" href="/plan/">Plan your day</a>
+      <a class="btn btn--ghost" href="/stay/">Places to stay</a>
+    </div>
+  </div>
+</section>`;
+    buildPage(
+      {
+        title: p.name,
+        fullTitle: p.title,
+        breadcrumb: p.name,
+        parent: 'The Route',
+        parentUrl: '/route/',
+        description: p.description,
+        active: 'route',
+        place: p,
+        ...(p.photo ? { ogimage: p.photo, ogwidth: String(p.photoW), ogheight: String(p.photoH), ogalt: p.photoAlt } : {}),
+      },
+      body,
+      `route/${p.slug}/index.html`
+    );
+  });
+  return places.map((p) => ({ url: placeUrl(p), lastmod: config.site.contentUpdated }));
+}
+
 /* ---- News collection ---------------------------------------------------- */
 function buildNews() {
   const dir = join(SRC, 'news');
@@ -288,14 +417,22 @@ function fmtDate(iso) {
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(DIST, { recursive: true });
 
-// News first so the index page can list posts.
+// News and places first so the index and route pages can list them.
 const posts = buildNews();
+const placeRecords = buildPlaces();
 const newsCards = posts.map((p) => `
   <a class="news-card" href="${p.url}">
     <span class="news-card__date">${fmtDate(p.meta.date)}</span>
     <span class="news-card__title">${p.meta.title}</span>
     ${p.meta.standfirst ? `<span class="news-card__excerpt">${p.meta.standfirst}</span>` : ''}
     <span class="news-card__more">Read more &rarr;</span>
+  </a>`).join('\n');
+
+const placeCards = places.map((p) => `
+  <a class="place-card" href="${placeUrl(p)}">
+    <span class="place-card__kicker">${p.area}</span>
+    <span class="place-card__name">${p.name}</span>
+    <span class="place-card__note">${p.kind === 'climb' ? 'Categorised climb' : 'On the corridor'}</span>
   </a>`).join('\n');
 
 // Pages
@@ -306,7 +443,9 @@ for (const f of readdirSync(join(SRC, 'pages')).filter((f) => f.endsWith('.html'
   // 404.html sits at the root so Cloudflare Pages serves it with a real 404
   // status instead of falling back to the homepage.
   const outPath = name === 'index' ? 'index.html' : name === '404' ? '404.html' : `${name}/index.html`;
-  const withPosts = body.replace('{{news_cards}}', () => newsCards || '<p>News will appear here soon.</p>');
+  const withPosts = body
+    .replace('{{news_cards}}', () => newsCards || '<p>News will appear here soon.</p>')
+    .replace('{{place_cards}}', () => placeCards);
   const page = buildPage(meta, withPosts, outPath);
   if (name !== '404') pageRecords.push({ url: page.canonical.replace(config.site.url, ''), lastmod: page.updated });
 }
@@ -328,6 +467,7 @@ const order = ['/', ...config.nav.map((n) => n.href), '/privacy/', '/legal/'];
 const rank = (u) => { const i = order.indexOf(u); return i === -1 ? order.length : i; };
 const urls = [
   ...pageRecords.sort((a, b) => rank(a.url) - rank(b.url)),
+  ...placeRecords,
   ...posts.map((p) => ({ url: p.url, lastmod: p.meta.updated || p.meta.date })),
 ];
 const missing = order.filter((u) => !urls.some((r) => r.url === u));

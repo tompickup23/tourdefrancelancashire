@@ -564,3 +564,27 @@ h1 { font-weight: 600; }
 .faq-item h3 { font-size: 1.12rem; margin-bottom: 0.5rem; letter-spacing: -0.015em; }
 .faq-item p { margin: 0; font-size: 0.99rem; }
 .faq-note { margin-top: 1.2rem; font-size: 0.88rem; color: var(--stone); }
+
+/* ---- Place guides (/route/<place>/) ----------------------------------- */
+.place-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.place-card { display: flex; flex-direction: column; gap: 0.35rem; text-decoration: none; padding: 1.2rem 1.3rem; background: linear-gradient(#fff, #FDFAF3); border: 1px solid rgba(27,67,50,0.10); border-radius: var(--radius); box-shadow: var(--shadow-sm); transition: transform .18s, box-shadow .18s; }
+.place-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.place-card__kicker { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--rose); font-weight: 700; }
+.place-card__name { font-family: var(--serif); font-size: 1.24rem; font-weight: 600; color: var(--ink); line-height: 1.15; letter-spacing: -0.02em; }
+.place-card__note { font-size: 0.88rem; color: var(--ink-soft); }
+
+.place-hero { width: 100%; height: auto; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--line); }
+.place-prevnext { display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--line); padding-top: 1.4rem; }
+.pn { display: flex; flex-direction: column; gap: 0.2rem; text-decoration: none; max-width: 46%; }
+.pn--next { text-align: right; margin-left: auto; }
+.pn span { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--stone); font-weight: 700; }
+.pn b { font-family: var(--serif); font-size: 1.1rem; font-weight: 600; color: var(--rose-deep); letter-spacing: -0.02em; }
+.pn:hover b { text-decoration: underline; }
+
+@media (max-width: 900px) {
+  .place-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .place-grid { grid-template-columns: 1fr; }
+  .pn { max-width: 48%; }
+}
