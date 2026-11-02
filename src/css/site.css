@@ -360,6 +360,10 @@ a.card:hover .card__link { text-decoration: underline; }
 /* ---- Route showcase --------------------------------------------------- */
 .route-showcase__grid { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: clamp(1.6rem, 4vw, 3.6rem); align-items: center; }
 .route-showcase__copy h2 { margin: 0.6rem 0 1rem; }
+.place-links__head { font-size: 1rem; margin: 1.4rem 0 0.6rem; }
+.place-links { list-style: none; margin: 0 0 1.6rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 0.5rem; }
+.place-links a { display: inline-block; padding: 0.3rem 0.75rem; border: 1px solid rgba(23,23,31,0.14); border-radius: 999px; font-size: 0.92rem; text-decoration: none; }
+.place-links a:hover { border-color: var(--rose); }
 
 /* gradient highlight on light headings */
 h2 .hl { background: linear-gradient(100deg, var(--rose), var(--gold-deep)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }

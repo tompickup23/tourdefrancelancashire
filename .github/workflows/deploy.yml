@@ -130,3 +130,13 @@ jobs:
             --project-name tourdefrancelancashire \
             --branch main \
             --commit-dirty=true
+
+      # Tells IndexNow (Bing and partners) about the live sitemap after a
+      # successful deploy. It can never fail the deploy.
+      - name: Notify IndexNow
+        if: success()
+        continue-on-error: true
+        timeout-minutes: 3
+        run: |
+          sleep 20
+          node scripts/indexnow.mjs || echo "::warning::IndexNow submission failed; the deploy is unaffected"
