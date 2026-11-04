@@ -34,7 +34,11 @@
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; }
 
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 body {
@@ -45,7 +49,7 @@ body {
   font-size: 1.06rem;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 img, svg { display: block; max-width: 100%; }
@@ -299,10 +303,17 @@ a.card:hover .card__link { text-decoration: underline; }
     position: fixed; inset: 0 0 0 auto; width: min(78vw, 320px);
     flex-direction: column; align-items: stretch; gap: 0.2rem;
     background: var(--paper); box-shadow: var(--shadow-lg); padding: 5rem 1.4rem 2rem;
-    transform: translateX(100%); transition: transform .25s ease; z-index: 40;
+    transform: translateX(100%); transition: transform .25s ease, visibility .25s ease; z-index: 40;
+    /* Closed drawer sits past the right edge; hide it so it cannot be swiped into view. */
+    visibility: hidden;
+    pointer-events: none;
   }
   .site-nav a { padding: 0.9rem 1rem; font-size: 1.05rem; }
-  .nav-toggle:checked ~ .site-nav { transform: translateX(0); }
+  .nav-toggle:checked ~ .site-nav {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+  }
   .nav-toggle:checked ~ .nav-burger span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
   .nav-toggle:checked ~ .nav-burger span:nth-child(2) { opacity: 0; }
   .nav-toggle:checked ~ .nav-burger span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
