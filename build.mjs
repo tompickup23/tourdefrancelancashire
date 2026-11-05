@@ -471,6 +471,10 @@ const placeCards = places.map((p) => `
     <span class="place-card__note">${p.kind === 'climb' ? 'Categorised climb' : 'On the corridor'}</span>
   </a>`).join('\n');
 
+// Plain links to every place page, for the homepage route section, so each
+// town and climb page is one click from the homepage.
+const placeLinks = `<ul class="place-links">\n${places.map((p) => `  <li><a href="${placeUrl(p)}">${p.name}</a></li>`).join('\n')}\n</ul>`;
+
 // Pages
 const pageRecords = [];
 for (const f of readdirSync(join(SRC, 'pages')).filter((f) => f.endsWith('.html'))) {
@@ -481,7 +485,8 @@ for (const f of readdirSync(join(SRC, 'pages')).filter((f) => f.endsWith('.html'
   const outPath = name === 'index' ? 'index.html' : name === '404' ? '404.html' : `${name}/index.html`;
   const withPosts = body
     .replace('{{news_cards}}', () => newsCards || '<p>News will appear here soon.</p>')
-    .replace('{{place_cards}}', () => placeCards);
+    .replace('{{place_cards}}', () => placeCards)
+    .replace('{{place_links}}', () => placeLinks);
   const page = buildPage(meta, withPosts, outPath);
   if (name !== '404') pageRecords.push({ url: page.canonical.replace(config.site.url, ''), lastmod: page.updated });
 }
